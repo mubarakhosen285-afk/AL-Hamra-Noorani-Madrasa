@@ -3711,11 +3711,12 @@ table.due-table td.name-cell {
         }
 
 
-        function buildPaidSmsMessage(studentName, month, amount) {
+        function buildPaidSmsMessage(studentName, month, amount , studentFather) {
 
             return (
 ` ${MADRASA_NAME}
     শিক্ষার্থী: ${studentName}
+    পিতা: ${studentFather}
     মাস: ${month}
     বেতন: ${fmtAmountPlain(amount)} টাকা
   ${month} মাসের বেতন পরিশোধ করা হয়েছে।
@@ -3936,7 +3937,7 @@ ${feeLine}${dateLine}ধন্যবাদ`
             if (!mobile) {
                 return {
                     success: false,
-                    error: 'মোবাইল নম্বর সঠিক নয়। উদাহরণ: 01712345678'
+                    error: 'মোবাইল নম্বর সঠিক নয়। উদাহরণ: 01883109096'
                 };
             }
 
@@ -5131,7 +5132,7 @@ ${feeLine}${dateLine}ধন্যবাদ`
                     const msg = buildPaidSmsMessage(
                         student.name,
                         bnMonths[modalMonthIdx],
-                        amount
+                        amount ,  student.father
                     );
 
                     const res = await sendSms(student.mobile, msg);
@@ -5310,8 +5311,8 @@ ${feeLine}${dateLine}ধন্যবাদ`
 সকল অভিভাবকের উপস্থিতি কামনা করা হচ্ছে।`,
 
             fee:
-`চলতি মাসের বেতন পরিশোধের শেষ তারিখ ...... ।
-দয়া করে নির্ধারিত সময়ের মধ্যে বেতন পরিশোধ করুন।`
+`চলতি মাসের বেতন পরিশোধের কার্যক্রম চলতেছে ।
+দয়া করে নির্ধারিত সময়ের মধ্যে বেতন পরিশোধ করুন। `
 
         };
 
