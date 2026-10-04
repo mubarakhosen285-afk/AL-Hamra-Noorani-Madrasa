@@ -3726,11 +3726,12 @@ table.due-table td.name-cell {
         }
 
 
-        function buildDueSmsMessage(studentName, month, amount) {
+        function buildDueSmsMessage(studentName, month, amount , studentFather) {
 
             return (
 ` ${MADRASA_NAME}
  শিক্ষার্থী: ${studentName}
+ পিতা: ${studentFather}
  মাস: ${month}
  বকেয়া বেতন: ${fmtAmountPlain(amount)} টাকা
 ${month} মাসের বেতন এখনও বকেয়া রয়েছে।
@@ -5132,7 +5133,8 @@ ${feeLine}${dateLine}ধন্যবাদ`
                     const msg = buildPaidSmsMessage(
                         student.name,
                         bnMonths[modalMonthIdx],
-                        amount ,  student.father
+                        amount ,  
+                        student.father
                     );
 
                     const res = await sendSms(student.mobile, msg);
@@ -5225,7 +5227,8 @@ ${feeLine}${dateLine}ধন্যবাদ`
                 const msg = buildDueSmsMessage(
                     student.name,
                     bnMonths[modalMonthIdx],
-                    dueAmount
+                    dueAmount ,
+                     student.father
                 );
 
                 const res = await sendSms(student.mobile, msg);
