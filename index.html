@@ -270,6 +270,12 @@
             margin-bottom: 2px;
         }
 
+        .photo-field input[type="file"] {
+            padding: 8px 10px;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: .82rem;
+        }
+
         .btn {
             font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             border: none;
@@ -2518,6 +2524,18 @@ table.due-table td.name-cell {
                             <input type="text" id="f_name" required placeholder="যেমনঃ মোঃ ইয়াসিন আরাফাত">
                         </div>
 
+                        <div class="field photo-field">
+                            <label>
+                                ছাত্র/ছাত্রীর ছবি
+                            </label>
+                            <input type="file" id="f_photo" accept="image/*" capture="user">
+                            <div id="photoPreviewWrap" style="display:none;margin-top:8px;">
+                                <img id="photoPreview" alt="ছাত্রের ছবি" style="width:88px;height:88px;object-fit:cover;border-radius:12px;border:2px solid var(--gold);display:block;">
+                                <button type="button" class="btn btn-ghost btn-sm" id="removePhotoBtn" style="margin-top:7px;">ছবি বাদ দিন</button>
+                            </div>
+                            <div style="font-size:.75rem;color:var(--ink-soft);margin-top:5px;">JPG/PNG ছবি দিন। সংরক্ষণের আগে ছবি ছোট করে নেওয়া হবে।</div>
+                        </div>
+
                         <div class="field">
                             <label>
                                 পিতার নাম
@@ -4044,6 +4062,8 @@ ${feeLine}${dateLine}ধন্যবাদ`
         function clearAdmissionForm() {
 
             admissionForm.reset();
+            window.currentStudentPhoto = '';
+            updateStudentPhotoPreview('');
 
             document.getElementById('editingRoll').value = '';
             document.getElementById('editingClass').value = '';
@@ -4059,6 +4079,75 @@ ${feeLine}${dateLine}ধন্যবাদ`
 
         document.getElementById('clearFormBtn')
             .addEventListener('click', clearAdmissionForm);
+
+
+        /* =========================================================
+           STUDENT PHOTO
+           ছবিটি ছোট করে Firebase Realtime Database-এ data URL হিসেবে রাখা হবে
+        ========================================================= */
+
+        window.currentStudentPhoto = '';
+
+        function updateStudentPhotoPreview(src) {
+            const wrap = document.getElementById('photoPreviewWrap');
+            const img = document.getElementById('photoPreview');
+            if (src) {
+                img.src = src;
+                wrap.style.display = 'block';
+            } else {
+                img.removeAttribute('src');
+                wrap.style.display = 'none';
+            }
+        }
+
+        function compressStudentPhoto(file) {
+            return new Promise((resolve, reject) => {
+                if (!file || !file.type.startsWith('image/')) {
+                    reject(new Error('সঠিক ছবি নির্বাচন করুন।'));
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const max = 480;
+                        const scale = Math.min(1, max / Math.max(img.width, img.height));
+                        const w = Math.max(1, Math.round(img.width * scale));
+                        const h = Math.max(1, Math.round(img.height * scale));
+                        const canvas = document.createElement('canvas');
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL('image/jpeg', 0.78));
+                    };
+                    img.onerror = () => reject(new Error('ছবিটি পড়া যায়নি।'));
+                    img.src = reader.result;
+                };
+                reader.onerror = () => reject(new Error('ছবি পড়া যায়নি।'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        document.getElementById('f_photo').addEventListener('change', async e => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            try {
+                const photo = await compressStudentPhoto(file);
+                window.currentStudentPhoto = photo;
+                updateStudentPhotoPreview(photo);
+            } catch (err) {
+                window.currentStudentPhoto = '';
+                updateStudentPhotoPreview('');
+                showMsg(admMsg, err.message || 'ছবি নেওয়া যায়নি।', false);
+            }
+        });
+
+        document.getElementById('removePhotoBtn').addEventListener('click', () => {
+            window.currentStudentPhoto = '';
+            document.getElementById('f_photo').value = '';
+            updateStudentPhotoPreview('');
+        });
 
 
         admissionForm.addEventListener('submit', async e => {
@@ -4110,6 +4199,8 @@ ${feeLine}${dateLine}ধন্যবাদ`
                 roll: roll,
 
                 name: document.getElementById('f_name').value.trim(),
+
+                photo: window.currentStudentPhoto || '',
 
                 father: document.getElementById('f_father').value.trim(),
 
@@ -4243,6 +4334,10 @@ ${feeLine}${dateLine}ধন্যবাদ`
             document.getElementById('editingClass').value = s.className || '';
 
             document.getElementById('f_name').value = s.name || '';
+
+            window.currentStudentPhoto = s.photo || s.image || s.photoUrl || s.imageUrl || '';
+            updateStudentPhotoPreview(window.currentStudentPhoto);
+
             document.getElementById('f_father').value = s.father || '';
             document.getElementById('f_roll').value = s.roll || '';
             document.getElementById('f_class').value = s.className || '';
