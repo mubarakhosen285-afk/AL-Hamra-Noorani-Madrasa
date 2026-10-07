@@ -1828,6 +1828,164 @@ a {
     }
 }
 
+
+/* =========================================================
+   NOTICE MANAGER — নোটিস ও তাগাদা বাটনের ভেতরের নতুন সিস্টেম
+   Existing design remains unchanged.
+========================================================= */
+
+.notice-manager {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.notice-manager-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.notice-manager-title h3 {
+    margin: 0;
+    color: var(--green-deep);
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 1.05rem;
+}
+
+.notice-manager-title span {
+    font-size: .78rem;
+    color: var(--ink-soft);
+}
+
+.notice-manager .notice-input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.notice-manager textarea {
+    width: 100%;
+    min-height: 105px;
+    resize: vertical;
+    font-family: 'Hind Siliguri', sans-serif;
+    font-size: .9rem;
+    line-height: 1.65;
+    padding: 10px 12px;
+    border: 1.5px solid var(--line);
+    border-radius: 9px;
+    background: #fff;
+    color: var(--ink);
+    outline: none;
+}
+
+.notice-manager textarea:focus {
+    border-color: var(--green);
+}
+
+.notice-manager .notice-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.notice-manager .saved-notices {
+    margin-top: 18px;
+    display: grid;
+    gap: 9px;
+}
+
+.notice-manager .saved-notice {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: #fbfaf5;
+}
+
+.notice-manager .saved-notice-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.notice-manager .saved-notice-type {
+    display: inline-block;
+    margin-bottom: 3px;
+    font-size: .7rem;
+    font-weight: 700;
+    color: var(--green-deep);
+    background: var(--green-soft);
+    border-radius: 999px;
+    padding: 2px 8px;
+}
+
+.notice-manager .saved-notice-text {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    line-height: 1.55;
+    font-size: .86rem;
+    color: var(--ink);
+}
+
+.notice-manager .saved-notice-date {
+    margin-top: 3px;
+    font-size: .68rem;
+    color: var(--ink-soft);
+}
+
+.notice-manager .saved-notice .btn {
+    flex: 0 0 auto;
+}
+
+.notice-manager .notice-empty {
+    text-align: center;
+    padding: 14px;
+    color: var(--ink-soft);
+    font-size: .78rem;
+    border: 1px dashed var(--line);
+    border-radius: 9px;
+}
+
+@media (max-width: 700px) {
+    .notice-manager {
+        padding: 12px;
+        border-radius: 11px;
+        margin-bottom: 12px;
+    }
+
+    .notice-manager .notice-input-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .notice-manager textarea {
+        min-height: 90px;
+        font-size: .82rem;
+    }
+
+    .notice-manager .notice-actions .btn {
+        flex: 1 1 100%;
+        min-height: 38px;
+    }
+
+    .notice-manager .saved-notice {
+        padding: 9px;
+    }
+
+    .notice-manager .saved-notice-text {
+        font-size: .76rem;
+    }
+}
+
 /* =========================================================
    SMS কেন্দ্র — নোটিশ ও বকেয়া তাগাদা (নতুন)
 ========================================================= */
@@ -2699,6 +2857,72 @@ table.due-table td.name-cell {
         <!-- ================= SMS CENTRE (নোটিশ + তাগাদা) ================= -->
 
         <section class="panel" id="panel-sms">
+
+
+            <!-- ---------- পাবলিক নোটিস ম্যানেজার ---------- -->
+
+            <div class="card">
+
+                <div class="notice-manager">
+
+                    <div class="notice-manager-title">
+                        <h3>📢 পাবলিক নোটিস ম্যানেজার</h3>
+                        <span>এখান থেকে পাবলিক পেইজের স্ক্রলিং নোটিস ও নোটিস বক্স নিয়ন্ত্রণ করুন</span>
+                    </div>
+
+                    <div class="notice-input-grid">
+
+                        <div class="field">
+                            <label>
+                                স্ক্রলিং নোটিস
+                            </label>
+
+                            <textarea
+                                id="scrollingNoticeInput"
+                                placeholder="স্ক্রলিং নোটিস লিখুন..."></textarea>
+
+                            <div class="notice-actions">
+                                <button
+                                    type="button"
+                                    class="btn btn-primary btn-sm"
+                                    id="saveScrollingNoticeBtn">
+                                    স্ক্রলিং নোটিস যোগ করুন
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div class="field">
+                            <label>
+                                নোটিস বক্স
+                            </label>
+
+                            <textarea
+                                id="noticeBoxInput"
+                                placeholder="নোটিস বক্সের নোটিস লিখুন..."></textarea>
+
+                            <div class="notice-actions">
+                                <button
+                                    type="button"
+                                    class="btn btn-gold btn-sm"
+                                    id="saveNoticeBoxBtn">
+                                    নোটিস বক্সে যোগ করুন
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="msg" id="publicNoticeMsg"></div>
+
+                    <div class="saved-notices" id="scrollingNoticeList"></div>
+
+                    <div class="saved-notices" id="noticeBoxList"></div>
+
+                </div>
+
+            </div>
 
             <!-- ---------- নোটিশ SMS ---------- -->
 
@@ -4022,6 +4246,7 @@ ${feeLine}${dateLine}ধন্যবাদ`
 
                 if (btn.dataset.tab === 'sms') {
                     initSmsPanel();
+                    loadPublicNoticeManager();
                 }
 
             });
@@ -5378,6 +5603,388 @@ ${feeLine}${dateLine}ধন্যবাদ`
         };
 
 
+
+        /* =========================================================
+           PUBLIC NOTICE MANAGER
+           Firebase paths:
+           publicNotices/scrolling
+           publicNotices/box
+        ========================================================= */
+
+        const PUBLIC_NOTICE_ROOT = 'publicNotices';
+
+        function noticeManagerDb() {
+            return waitForFirebase();
+        }
+
+        function noticeManagerRef(db, type) {
+            return window.firebaseFns.ref(
+                db,
+                PUBLIC_NOTICE_ROOT + '/' + type
+            );
+        }
+
+        function makeNoticeId() {
+            return String(Date.now()) + '_' +
+                Math.random().toString(36).slice(2, 8);
+        }
+
+        function noticeDateText(timestamp) {
+            if (!timestamp) {
+                return '';
+            }
+
+            try {
+                const d = new Date(Number(timestamp));
+
+                return toBn(d.getDate()) + '/' +
+                    toBn(d.getMonth() + 1) + '/' +
+                    toBn(d.getFullYear()) + ' ' +
+                    toBn(String(d.getHours()).padStart(2, '0')) + ':' +
+                    toBn(String(d.getMinutes()).padStart(2, '0'));
+
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function showPublicNoticeMsg(text, ok = true) {
+            showMsg(
+                document.getElementById('publicNoticeMsg'),
+                text,
+                ok
+            );
+        }
+
+        async function getPublicNoticeList(type) {
+
+            const db = await noticeManagerDb();
+
+            if (!db || !window.firebaseFns) {
+                throw new Error('Firebase সংযোগ পাওয়া যায়নি।');
+            }
+
+            const snap = await window.firebaseFns.get(
+                noticeManagerRef(db, type)
+            );
+
+            if (!snap.exists()) {
+                return [];
+            }
+
+            const value = snap.val() || {};
+
+            return Object.entries(value)
+                .map(([id, item]) => ({
+                    id,
+                    ...(item || {})
+                }))
+                .filter(item => item.text && String(item.text).trim())
+                .sort(
+                    (a, b) =>
+                        Number(b.createdAt || 0) -
+                        Number(a.createdAt || 0)
+                );
+        }
+
+        async function savePublicNotice(type, text) {
+
+            const cleanText = String(text || '').trim();
+
+            if (!cleanText) {
+                throw new Error('নোটিস ফাঁকা রাখা যাবে না।');
+            }
+
+            const db = await noticeManagerDb();
+
+            if (!db || !window.firebaseFns) {
+                throw new Error('Firebase সংযোগ পাওয়া যায়নি।');
+            }
+
+            const id = makeNoticeId();
+
+            await window.firebaseFns.set(
+                noticeManagerRef(db, type + '/' + id),
+                {
+                    text: cleanText,
+                    createdAt: Date.now()
+                }
+            );
+
+            return id;
+        }
+
+        async function deletePublicNotice(type, id) {
+
+            const db = await noticeManagerDb();
+
+            if (!db || !window.firebaseFns) {
+                throw new Error('Firebase সংযোগ পাওয়া যায়নি।');
+            }
+
+            await window.firebaseFns.remove(
+                noticeManagerRef(db, type + '/' + id)
+            );
+        }
+
+        function renderPublicNoticeList(type, list) {
+
+            const boxId =
+                type === 'scrolling'
+                    ? 'scrollingNoticeList'
+                    : 'noticeBoxList';
+
+            const box = document.getElementById(boxId);
+
+            if (!box) {
+                return;
+            }
+
+            const title =
+                type === 'scrolling'
+                    ? 'স্ক্রলিং নোটিসের তালিকা'
+                    : 'নোটিস বক্সের তালিকা';
+
+            if (!list.length) {
+
+                box.innerHTML = `
+                    <div class="notice-empty">
+                        ${title} — এখনো কোনো নোটিস যোগ করা হয়নি।
+                    </div>
+                `;
+
+                return;
+            }
+
+            box.innerHTML = `
+                <div style="font-size:.78rem;font-weight:700;color:var(--green-deep);margin-bottom:2px;">
+                    ${title}
+                </div>
+            ` + list.map(item => `
+                <div class="saved-notice">
+
+                    <div class="saved-notice-content">
+
+                        <span class="saved-notice-type">
+                            ${type === 'scrolling' ? 'স্ক্রলিং' : 'নোটিস বক্স'}
+                        </span>
+
+                        <div class="saved-notice-text">
+                            ${escapeHtml(item.text)}
+                        </div>
+
+                        <div class="saved-notice-date">
+                            ${noticeDateText(item.createdAt)}
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn btn-danger btn-sm"
+                        data-notice-delete="${escapeHtml(type)}"
+                        data-notice-id="${escapeHtml(item.id)}">
+                        ডিলেট
+                    </button>
+
+                </div>
+            `).join('');
+
+            box.querySelectorAll('[data-notice-delete]')
+                .forEach(btn => {
+
+                    btn.addEventListener('click', async () => {
+
+                        const noticeType = btn.dataset.noticeDelete;
+                        const noticeId = btn.dataset.noticeId;
+
+                        if (!confirm('এই নোটিসটি ডিলেট করতে চান?')) {
+                            return;
+                        }
+
+                        btn.disabled = true;
+
+                        try {
+
+                            await deletePublicNotice(
+                                noticeType,
+                                noticeId
+                            );
+
+                            await loadPublicNoticeManager();
+
+                            showPublicNoticeMsg(
+                                'নোটিস সফলভাবে ডিলেট করা হয়েছে।',
+                                true
+                            );
+
+                        } catch (err) {
+
+                            console.error(err);
+
+                            btn.disabled = false;
+
+                            showPublicNoticeMsg(
+                                err.message || 'নোটিস ডিলেট করা যায়নি।',
+                                false
+                            );
+
+                        }
+
+                    });
+
+                });
+
+        }
+
+        async function loadPublicNoticeManager() {
+
+            try {
+
+                const [scrolling, box] = await Promise.all([
+                    getPublicNoticeList('scrolling'),
+                    getPublicNoticeList('box')
+                ]);
+
+                renderPublicNoticeList(
+                    'scrolling',
+                    scrolling
+                );
+
+                renderPublicNoticeList(
+                    'box',
+                    box
+                );
+
+            } catch (err) {
+
+                console.error('Public notice load failed:', err);
+
+                renderPublicNoticeList('scrolling', []);
+
+                renderPublicNoticeList('box', []);
+
+                showPublicNoticeMsg(
+                    err.message || 'নোটিস লোড করা যায়নি।',
+                    false
+                );
+
+            }
+
+        }
+
+        document
+            .getElementById('saveScrollingNoticeBtn')
+            .addEventListener('click', async () => {
+
+                const input =
+                    document.getElementById('scrollingNoticeInput');
+
+                const btn =
+                    document.getElementById('saveScrollingNoticeBtn');
+
+                const text = input.value.trim();
+
+                if (!text) {
+                    showPublicNoticeMsg(
+                        'স্ক্রলিং নোটিস লিখুন।',
+                        false
+                    );
+                    input.focus();
+                    return;
+                }
+
+                btn.disabled = true;
+
+                try {
+
+                    await savePublicNotice(
+                        'scrolling',
+                        text
+                    );
+
+                    input.value = '';
+
+                    await loadPublicNoticeManager();
+
+                    showPublicNoticeMsg(
+                        'স্ক্রলিং নোটিস সফলভাবে যোগ হয়েছে।',
+                        true
+                    );
+
+                } catch (err) {
+
+                    console.error(err);
+
+                    showPublicNoticeMsg(
+                        err.message || 'স্ক্রলিং নোটিস যোগ করা যায়নি।',
+                        false
+                    );
+
+                } finally {
+
+                    btn.disabled = false;
+
+                }
+
+            });
+
+        document
+            .getElementById('saveNoticeBoxBtn')
+            .addEventListener('click', async () => {
+
+                const input =
+                    document.getElementById('noticeBoxInput');
+
+                const btn =
+                    document.getElementById('saveNoticeBoxBtn');
+
+                const text = input.value.trim();
+
+                if (!text) {
+                    showPublicNoticeMsg(
+                        'নোটিস বক্সের নোটিস লিখুন।',
+                        false
+                    );
+                    input.focus();
+                    return;
+                }
+
+                btn.disabled = true;
+
+                try {
+
+                    await savePublicNotice(
+                        'box',
+                        text
+                    );
+
+                    input.value = '';
+
+                    await loadPublicNoticeManager();
+
+                    showPublicNoticeMsg(
+                        'নোটিস বক্সের নোটিস সফলভাবে যোগ হয়েছে।',
+                        true
+                    );
+
+                } catch (err) {
+
+                    console.error(err);
+
+                    showPublicNoticeMsg(
+                        err.message || 'নোটিস বক্সের নোটিস যোগ করা যায়নি।',
+                        false
+                    );
+
+                } finally {
+
+                    btn.disabled = false;
+
+                }
+
+            });
+
         /* =========================================================
            SMS কেন্দ্র — নোটিশ ও বকেয়া তাগাদা  (নতুন সিস্টেম)
         ========================================================= */
@@ -6524,6 +7131,13 @@ ${feeLine}${dateLine}ধন্যবাদ`
                     renderStudentsTable(),
                     renderFeeLedger()
                 ]);
+
+                if (
+                    document.getElementById('panel-sms') &&
+                    document.getElementById('panel-sms').classList.contains('active')
+                ) {
+                    loadPublicNoticeManager();
+                }
 
             })
             .catch(console.error);
