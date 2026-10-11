@@ -26,9 +26,29 @@
     padding: 10px;
     margin-left: 910px;
 }
-@media (max width:720px){
-     .ay-bay:hover{
-            background: #629e5a81;
-            transition: 0.5s;
-            transform: scale(2)}
+.visit{
+    background-color: #081a08;
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 2px;
+    position: absolute;
+    top: 0px;
+    left: 100px;
+    border-radius: 5px;
+    z-index: 1000;
+    position: fixed;
+
+}
+@media (max-width: 800px){
+    .visit{
+    top: 5px;
+    left: 400px;
+    }
+}
+@media (max-width: 350px){
+    .visit{
+    top: 5px;
+    left: 300px;
+    }
 }

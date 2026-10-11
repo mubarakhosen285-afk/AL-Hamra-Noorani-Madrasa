@@ -3156,6 +3156,15 @@ table.due-table td.name-cell {
 
         <section class="panel active" id="panel-fees">
 
+            <!-- WEBSITE VISITOR COUNTER -->
+            <div class="visit" id="siteVisitCounterCard" >
+                <div>
+                    <h2 style="color:#fff;margin:0 ; font-size: 20px;">👁️</h2>
+                    
+                </div>
+                <div id="siteVisitCount" aria-live="polite" style="font-size:20px;font-weight:700;color:#ece5ce;min-width:80px;text-align:center; margin: 0 10px 0 0;">load</div>
+            </div>
+
             <div class="card">
 
                 <h2>
@@ -3164,7 +3173,7 @@ table.due-table td.name-cell {
 
                 <p class="sub" id="feeTopSub">
                     প্রথমে একটি শ্রেণি বাছাই করুন —
-                    সেই শ্রেণির বেতন খাতা খুলে যাবে।
+                    
                 </p>
 
                 <div class="class-selector" id="classSelector"></div>
@@ -7211,6 +7220,24 @@ Visit: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
             window.firebaseDb = db;
 
             window.firebaseFns = { ref, get, set, remove };
+
+            // Load the public website visit count into the admin panel.
+            async function loadSiteVisitCount() {
+                const output = document.getElementById("siteVisitCount");
+                if (!output) return;
+
+                try {
+                    const snapshot = await get(ref(db, "siteStats/totalVisits"));
+                    const total = snapshot.exists() ? Number(snapshot.val()) || 0 : 0;
+                    output.textContent = total.toLocaleString("bn-BD");
+                } catch (error) {
+                    console.error("Visit count load failed:", error);
+                    output.textContent = "লোড করা যায়নি";
+                    output.title = "Firebase Rules বা সংযোগ পরীক্ষা করুন";
+                }
+            }
+
+            loadSiteVisitCount();
 
             if (window.__resolveFirebaseReady) {
                 window.__resolveFirebaseReady(db);
