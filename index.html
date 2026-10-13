@@ -2592,9 +2592,40 @@ table.due-table td.name-cell {
 }
 
     </style>
+
+    <style>
+      body.auth-locked > :not(#login-screen) { display: none !important; }
+      #login-screen { position:fixed; inset:0; z-index:999999; display:flex; align-items:center; justify-content:center; padding:20px; background:linear-gradient(135deg,#0F3D2E,#1B5E42); font-family:'Hind Siliguri',sans-serif; }
+      body:not(.auth-locked) #login-screen { display:none !important; }
+      .login-card { width:min(100%,420px); background:#fff; border-radius:18px; padding:28px; box-shadow:0 18px 55px rgba(0,0,0,.28); }
+      .login-card h2 { margin:0 0 6px; color:#0F3D2E; font-family:'Noto Serif Bengali',serif; }
+      .login-card p { margin:0 0 22px; color:#5B6459; }
+      .login-card label { display:block; margin:14px 0 6px; color:#0F3D2E; font-weight:600; }
+      .login-card input { width:100%; box-sizing:border-box; padding:12px; border:1px solid #cfcfcf; border-radius:9px; font:16px 'Hind Siliguri',sans-serif; }
+      .login-card button { width:100%; margin-top:20px; padding:12px; border:0; border-radius:9px; background:#0F3D2E; color:white; font:600 16px 'Hind Siliguri',sans-serif; cursor:pointer; }
+      .login-card button:disabled { opacity:.65; cursor:wait; }
+      #login-error { display:none; margin-top:14px; padding:10px; border-radius:8px; color:#8b1d1d; background:#fff0f0; font-size:14px; }
+      #admin-logout-button { position:fixed; top:12px; right:16px; z-index:20000; padding:9px 14px; border:1px solid #e5d9a8; border-radius:9px; background:#C9A227; color:#0F3D2E; font:600 14px 'Hind Siliguri',sans-serif; cursor:pointer; box-shadow:0 3px 12px #0002; }
+      @media(max-width:600px){ .login-card{padding:22px;} #admin-logout-button{top:auto;bottom:12px;right:12px;} }
+    </style>
+
 </head>
 
-<body>
+<body class="auth-locked">
+
+    <section id="login-screen" aria-label="অ্যাডমিন লগইন">
+      <form class="login-card" id="admin-login-form">
+        <h2>আল হামরা নূরানী মাদ্রাসা</h2>
+        <p>অ্যাডমিন প্যানেলে প্রবেশ করতে লগইন করুন</p>
+        <label for="admin-login-email">ইমেইল</label>
+        <input id="admin-login-email" type="email" autocomplete="username" required placeholder="আপনার ইমেইল" />
+        <label for="admin-login-password">পাসওয়ার্ড</label>
+        <input id="admin-login-password" type="password" autocomplete="current-password" required placeholder="আপনার পাসওয়ার্ড" />
+        <button id="admin-login-submit" type="submit">লগইন করুন</button>
+        <div id="login-error" role="alert"></div>
+      </form>
+    </section>
+
 
     <!-- ================= HEADER ================= -->
 
@@ -7171,6 +7202,17 @@ Visit: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
         from
         "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 
+        import {
+            getAuth,
+            setPersistence,
+            browserLocalPersistence,
+            signInWithEmailAndPassword,
+            onAuthStateChanged,
+            signOut
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
 
         import {
             getDatabase,
@@ -7214,6 +7256,94 @@ Visit: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
             const app = initializeApp(firebaseConfig);
 
             const db = getDatabase(app);
+            const auth = getAuth(app);
+            window.firebaseAuth = auth;
+
+            // Set persistent login before observing auth state or accepting a login.
+            try {
+                await setPersistence(auth, browserLocalPersistence);
+            } catch (persistenceError) {
+                console.warn('Could not set login persistence:', persistenceError);
+            }
+
+            const loginForm = document.getElementById('admin-login-form');
+            const loginButton = document.getElementById('admin-login-submit');
+            const loginError = document.getElementById('login-error');
+
+            function showLoginError(message) {
+                if (!loginError) return;
+                loginError.textContent = message;
+                loginError.style.display = 'block';
+            }
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    if (loginButton) {
+                        loginButton.disabled = true;
+                        loginButton.textContent = 'লগইন হচ্ছে…';
+                    }
+                    if (loginError) {
+                        loginError.textContent = '';
+                        loginError.style.display = 'none';
+                    }
+                    const email = document.getElementById('admin-login-email').value.trim();
+                    const password = document.getElementById('admin-login-password').value;
+                    try {
+                        await signInWithEmailAndPassword(auth, email, password);
+                    } catch (error) {
+                        console.error('Admin login failed:', error);
+                        const code = error && error.code ? error.code : '';
+                        let message = 'লগইন করা যায়নি। ইমেইল ও পাসওয়ার্ড পরীক্ষা করুন।';
+                        if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+                            message = 'ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।';
+                        } else if (code === 'auth/too-many-requests') {
+                            message = 'অনেকবার চেষ্টা করা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।';
+                        } else if (code === 'auth/network-request-failed') {
+                            message = 'ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।';
+                        } else if (code === 'auth/operation-not-allowed') {
+                            message = 'Firebase Authentication-এ Email/Password চালু করা হয়নি।';
+                        } else if (code === 'auth/invalid-api-key') {
+                            message = 'Firebase API key ঠিক নেই। Firebase config পরীক্ষা করুন।';
+                        }
+                        showLoginError(message);
+                    } finally {
+                        if (loginButton) {
+                            loginButton.disabled = false;
+                            loginButton.textContent = 'লগইন করুন';
+                        }
+                    }
+                });
+            }
+
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    document.body.classList.remove('auth-locked');
+                    let logoutButton = document.getElementById('admin-logout-button');
+                    if (!logoutButton) {
+                        logoutButton = document.createElement('button');
+                        logoutButton.id = 'admin-logout-button';
+                        logoutButton.type = 'button';
+                        logoutButton.textContent = 'লগআউট';
+                        logoutButton.addEventListener('click', async () => {
+                            const ok = confirm('আপনি কি লগআউট করতে চান?');
+                            if (!ok) return;
+                            try {
+                                await signOut(auth);
+                            } catch (error) {
+                                console.error('Logout failed:', error);
+                                alert('লগআউট করা যায়নি। আবার চেষ্টা করুন।');
+                            }
+                        });
+                        document.body.appendChild(logoutButton);
+                    }
+                    logoutButton.style.display = 'block';
+                } else {
+                    document.body.classList.add('auth-locked');
+                    const logoutButton = document.getElementById('admin-logout-button');
+                    if (logoutButton) logoutButton.style.display = 'none';
+                }
+            });
 
             window.firebaseApp = app;
 
@@ -7246,6 +7376,11 @@ Visit: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
         } catch (error) {
 
             console.error('Firebase initialization failed:', error);
+            const loginError = document.getElementById('login-error');
+            if (loginError) {
+                loginError.textContent = 'Firebase সংযোগ করা যায়নি। ইন্টারনেট ও Firebase config পরীক্ষা করুন।';
+                loginError.style.display = 'block';
+            }
 
             if (window.__resolveFirebaseReady) {
                 window.__resolveFirebaseReady(null);
