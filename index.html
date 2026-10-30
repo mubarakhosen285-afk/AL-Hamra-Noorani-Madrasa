@@ -2610,6 +2610,41 @@ table.due-table td.name-cell {
       @media(max-width:600px){ .login-card{padding:22px;} #admin-logout-button{top:auto;bottom:12px;right:12px;} }
     </style>
 
+<style>\n
+    /* ================= VISITOR DETAILS MENU ================= */
+    .visitor-counter-card{display:flex;align-items:center;justify-content:flex-end;max-width:1180px;margin:0 auto 14px;padding:0;background:transparent;border:0;box-shadow:none}
+    .visitor-counter-info{display:none}
+    .visitor-counter-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .visitor-more-btn{position:relative;width:58px;height:54px;flex:0 0 58px;border:1px solid rgba(201,162,39,.55);border-radius:14px;background:linear-gradient(145deg,#0f3d2e,#1b6848);box-shadow:0 5px 14px rgba(15,61,46,.18);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:9px 8px 5px;gap:4px;cursor:pointer;transition:.18s ease}
+    .visitor-more-btn:hover{background:linear-gradient(145deg,#c9a227,#e0bd54);border-color:#c9a227;transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,61,46,.22)}
+    .visitor-more-btn .visitor-menu-line{width:22px;height:2px;border-radius:2px;background:#fff;display:block;transition:.18s ease}
+    .visitor-more-btn:hover .visitor-menu-line{background:#0f3d2e}
+    #siteVisitCount{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#f8e9b5;font-size:.76rem;font-weight:800;line-height:1.1;text-align:center}
+    .visitor-more-btn:hover #siteVisitCount{color:#0f3d2e}
+    .visitor-modal{display:none;position:fixed;inset:0;z-index:3000;align-items:center;justify-content:center;padding:14px}
+    .visitor-modal.show{display:flex}
+    .visitor-modal-backdrop{position:absolute;inset:0;background:rgba(8,22,15,.65);backdrop-filter:blur(3px)}
+    .visitor-modal-box{position:relative;width:min(760px,100%);max-height:88vh;overflow:hidden;display:flex;flex-direction:column;background:#fff;border:1px solid #e7dfca;border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.28);animation:visitorPop .18s ease}
+    @keyframes visitorPop{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+    .visitor-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:18px 20px;background:linear-gradient(135deg,#0f3d2e,#1b6848);color:#fff}
+    .visitor-modal-head h3{margin:0;font-family:'Noto Serif Bengali',serif;font-size:1.12rem;color:#fff}
+    .visitor-modal-head p{margin:4px 0 0;color:#e7e9dc;font-size:.78rem}
+    .visitor-close-btn{border:0;background:rgba(255,255,255,.15);color:#fff;width:34px;height:34px;border-radius:10px;font-size:1.5rem;line-height:1;cursor:pointer}
+    .visitor-modal-tools{display:flex;gap:9px;padding:13px 16px;border-bottom:1px solid #eee9dc;background:#fcfbf7}
+    .visitor-modal-tools input{min-width:0;flex:1;font-family:'Hind Siliguri',sans-serif}
+    .visitor-list{padding:13px 16px 18px;overflow:auto;display:grid;gap:9px}
+    .visitor-item{display:grid;grid-template-columns:42px 1fr;gap:10px;padding:12px;border:1px solid #e8e2d4;border-radius:12px;background:#fff}
+    .visitor-item-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:#e7efe8;color:#0f3d2e;font-size:1.1rem}
+    .visitor-item-main{min-width:0}
+    .visitor-item-title{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#0f3d2e;font-weight:700;font-size:.9rem}
+    .visitor-item-meta{margin-top:5px;color:#5b6459;font-size:.78rem;line-height:1.65;overflow-wrap:anywhere}
+    .visitor-item-date{color:#8a8069;font-size:.7rem;margin-top:4px}
+    .visitor-item-actions{display:flex;justify-content:flex-end;margin-top:8px}
+    .visitor-delete-btn{border:1px solid #e7caca;background:#fff5f5;color:#a12626;border-radius:8px;padding:5px 10px;font:600 .75rem 'Hind Siliguri',sans-serif;cursor:pointer}
+    .visitor-delete-btn:hover{background:#a12626;color:#fff}
+    .visitor-empty{padding:28px 12px;text-align:center;color:#6b746d;font-size:.86rem;border:1px dashed #d9d2c2;border-radius:12px;background:#fbfaf6}
+    @media(max-width:600px){.visitor-counter-card{margin:0 0 10px;padding:0}.visitor-more-btn{width:54px;height:52px;flex-basis:54px;border-radius:13px;padding-top:8px}.visitor-modal{padding:7px;align-items:flex-end}.visitor-modal-box{max-height:90vh;border-radius:16px 16px 10px 10px}.visitor-modal-head{padding:14px}.visitor-modal-tools{padding:10px;flex-wrap:wrap}.visitor-modal-tools input{flex-basis:100%}.visitor-list{padding:10px}.visitor-item{padding:10px;grid-template-columns:34px 1fr}.visitor-item-icon{width:34px;height:34px}}
+\n</style>
 </head>
 
 <body class="auth-locked">
@@ -3188,13 +3223,36 @@ table.due-table td.name-cell {
 
         <section class="panel active" id="panel-fees">
 
-            <!-- WEBSITE VISITOR COUNTER -->
-            <div class="visit" id="siteVisitCounterCard" >
-                <div>
-                    <h2 style="color:#fff;margin:0 ; font-size: 20px;">👁️</h2>
-                    
+            <!-- WEBSITE VISITOR COUNTER + VISITOR DETAILS MENU -->
+            <div class="visit visitor-counter-card" id="siteVisitCounterCard">
+                <div class="visitor-counter-info">
+                    <span class="visitor-counter-label">মোট ওয়েবসাইট ভিজিটর</span>
                 </div>
-                <div id="siteVisitCount" aria-live="polite" style="font-size:20px;font-weight:700;color:#ece5ce;min-width:80px;text-align:center; margin: 0 10px 0 0;">load</div>
+                <button type="button" class="visitor-more-btn" id="visitorMoreBtn"
+                    aria-label="মোট ওয়েবসাইট ভিজিটর ও বিস্তারিত তালিকা দেখুন" title="মোট ভিজিটর ও বিস্তারিত তালিকা">
+                    <span class="visitor-menu-line"></span><span class="visitor-menu-line"></span><span class="visitor-menu-line"></span>
+                    <strong id="siteVisitCount" aria-live="polite">লোড হচ্ছে...</strong>
+                </button>
+            </div>
+
+            <div class="visitor-modal" id="visitorModal" aria-hidden="true">
+                <div class="visitor-modal-backdrop" data-visitor-close></div>
+                <section class="visitor-modal-box" role="dialog" aria-modal="true" aria-labelledby="visitorModalTitle">
+                    <div class="visitor-modal-head">
+                        <div>
+                            <h3 id="visitorModalTitle">ওয়েবসাইট ভিজিটর তালিকা</h3>
+                            <p id="visitorModalSummary">ভিজিটরদের দেওয়া তথ্য এখানে দেখা যাবে।</p>
+                        </div>
+                        <button type="button" class="visitor-close-btn" data-visitor-close aria-label="বন্ধ করুন">×</button>
+                    </div>
+                    <div class="visitor-modal-tools">
+                        <input type="search" id="visitorSearchInput" placeholder="অভিভাবকের নাম / শিক্ষার্থী / শ্রেণি দিয়ে খুঁজুন...">
+                        <button type="button" class="btn btn-ghost btn-sm" id="visitorRefreshBtn">↻ রিফ্রেশ</button>
+                    </div>
+                    <div class="visitor-list" id="visitorList">
+                        <div class="visitor-empty">তথ্য লোড হচ্ছে...</div>
+                    </div>
+                </section>
             </div>
 
             <div class="card">
@@ -7369,6 +7427,140 @@ Visit: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
             }
 
             loadSiteVisitCount();
+
+
+            // ভিজিটরদের বিস্তারিত তথ্য দেখানোর ব্যবস্থা
+            const visitorModal = document.getElementById("visitorModal");
+            const visitorList = document.getElementById("visitorList");
+            const visitorSearchInput = document.getElementById("visitorSearchInput");
+            let visitorRecordsCache = [];
+
+            function visitorText(value, fallback = "-") {
+                return value === undefined || value === null || String(value).trim() === "" ? fallback : String(value).trim();
+            }
+
+            function formatVisitorDate(record) {
+                const raw = record.createdAt || record.date || "";
+                if (!raw) return "তারিখ দেওয়া নেই";
+                const date = new Date(raw);
+                if (Number.isNaN(date.getTime())) return String(raw);
+                return date.toLocaleString("bn-BD", {year:"numeric",month:"long",day:"numeric",hour:"numeric",minute:"2-digit"});
+            }
+
+            function renderVisitorRecords() {
+                if (!visitorList) return;
+                const query = (visitorSearchInput?.value || "").trim().toLocaleLowerCase();
+                const filtered = visitorRecordsCache.filter(item => {
+                    const r = item.data;
+                    return [r.visitorName,r.relation,r.relationDetail,r.className,r.studentName,r.studentRoll,r.date,r.createdAt]
+                        .map(v => String(v ?? "")).join(" ").toLocaleLowerCase().includes(query);
+                });
+                visitorList.replaceChildren();
+                if (!filtered.length) {
+                    const empty = document.createElement("div");
+                    empty.className = "visitor-empty";
+                    empty.textContent = visitorRecordsCache.length ? "আপনার খোঁজার সঙ্গে মেলে এমন কোনো তথ্য পাওয়া যায়নি।" : "এখনো কোনো ভিজিটর তথ্য পাওয়া যায়নি।";
+                    visitorList.appendChild(empty);
+                    return;
+                }
+                filtered.forEach(({key, data}, index) => {
+                    const card = document.createElement("article");
+                    card.className = "visitor-item";
+                    const icon = document.createElement("div");
+                    icon.className = "visitor-item-icon";
+                    icon.textContent = "👤";
+                    const main = document.createElement("div");
+                    main.className = "visitor-item-main";
+                    const title = document.createElement("div");
+                    title.className = "visitor-item-title";
+                    const name = document.createElement("span");
+                    name.textContent = "অভিভাবক: " + visitorText(data.visitorName, "নাম দেওয়া হয়নি");
+                    const serial = document.createElement("span");
+                    serial.textContent = "ক্রমিক: " + (index + 1).toLocaleString("bn-BD");
+                    title.append(name, serial);
+                    const relation = visitorText(data.relation);
+                    const detail = relation === "অন্যান্য" && data.relationDetail ? " (" + visitorText(data.relationDetail) + ")" : "";
+                    const meta = document.createElement("div");
+                    meta.className = "visitor-item-meta";
+                    meta.textContent = "সম্পর্ক: " + relation + detail + "  •  শিক্ষার্থী: " + visitorText(data.studentName) + "  •  শ্রেণি: " + visitorText(data.className) + "  •  রোল: " + visitorText(data.studentRoll);
+                    const date = document.createElement("div");
+                    date.className = "visitor-item-date";
+                    date.textContent = "সময়: " + formatVisitorDate(data);
+                    const actions = document.createElement("div");
+                    actions.className = "visitor-item-actions";
+                    const deleteButton = document.createElement("button");
+                    deleteButton.type = "button";
+                    deleteButton.className = "visitor-delete-btn";
+                    deleteButton.textContent = "তথ্য মুছুন";
+                    deleteButton.addEventListener("click", async () => {
+                        if (!confirm("এই ভিজিটরের তথ্য Firebase থেকে মুছে ফেলতে চান?")) return;
+                        deleteButton.disabled = true;
+                        deleteButton.textContent = "মুছছে...";
+                        try {
+                            await remove(ref(db, "visitorEntries/" + key));
+                            visitorRecordsCache = visitorRecordsCache.filter(item => item.key !== key);
+                            const summary = document.getElementById("visitorModalSummary");
+                            if (summary) summary.textContent = "মোট " + visitorRecordsCache.length.toLocaleString("bn-BD") + " জনের ভিজিটর তথ্য পাওয়া গেছে।";
+                            renderVisitorRecords();
+                        } catch (error) {
+                            console.error("Visitor record delete failed:", error);
+                            alert("তথ্য মুছতে পারা যায়নি। Firebase Rules পরীক্ষা করুন।");
+                            deleteButton.disabled = false;
+                            deleteButton.textContent = "তথ্য মুছুন";
+                        }
+                    });
+                    actions.appendChild(deleteButton);
+                    main.append(title, meta, date, actions);
+                    card.append(icon, main);
+                    visitorList.appendChild(card);
+                });
+            }
+
+            async function loadVisitorRecords() {
+                if (!visitorList) return;
+                visitorList.innerHTML = '<div class="visitor-empty">ভিজিটর তথ্য লোড হচ্ছে...</div>';
+                try {
+                    const snapshot = await get(ref(db, "visitorEntries"));
+                    visitorRecordsCache = [];
+                    if (snapshot.exists()) {
+                        visitorRecordsCache = Object.entries(snapshot.val() || {})
+                            .map(([key, data]) => ({key, data: data || {}}))
+                            .sort((a,b) => {
+                                const time = value => {
+                                    const n = Number(value);
+                                    return Number.isFinite(n) && n > 0 ? n : (new Date(value || 0).getTime() || 0);
+                                };
+                                return time(b.data.createdAt || b.data.date) - time(a.data.createdAt || a.data.date);
+                            });
+                    }
+                    const summary = document.getElementById("visitorModalSummary");
+                    if (summary) summary.textContent = "মোট " + visitorRecordsCache.length.toLocaleString("bn-BD") + " জনের ভিজিটর তথ্য পাওয়া গেছে।";
+                    renderVisitorRecords();
+                } catch (error) {
+                    console.error("Visitor records load failed:", error);
+                    visitorList.innerHTML = '<div class="visitor-empty">তথ্য লোড করা যায়নি। Firebase Database Rules অথবা visitorEntries পথের অনুমতি পরীক্ষা করুন।</div>';
+                }
+            }
+
+            function openVisitorModal() {
+                if (!visitorModal) return;
+                visitorModal.classList.add("show");
+                visitorModal.setAttribute("aria-hidden","false");
+                document.body.style.overflow = "hidden";
+                if (visitorSearchInput) visitorSearchInput.value = "";
+                loadVisitorRecords();
+            }
+            function closeVisitorModal() {
+                if (!visitorModal) return;
+                visitorModal.classList.remove("show");
+                visitorModal.setAttribute("aria-hidden","true");
+                document.body.style.overflow = "";
+            }
+            document.getElementById("visitorMoreBtn")?.addEventListener("click", openVisitorModal);
+            document.getElementById("visitorRefreshBtn")?.addEventListener("click", loadVisitorRecords);
+            visitorSearchInput?.addEventListener("input", renderVisitorRecords);
+            visitorModal?.querySelectorAll("[data-visitor-close]").forEach(el => el.addEventListener("click", closeVisitorModal));
+            document.addEventListener("keydown", event => { if (event.key === "Escape") closeVisitorModal(); });
 
             if (window.__resolveFirebaseReady) {
                 window.__resolveFirebaseReady(db);
