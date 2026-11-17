@@ -7,7 +7,7 @@
             transform: scale(1);
            
         }
-        .ay-bay:hover{
+.ay-bay:hover{
             background: #629e5a81;
             transition: 0.5s;
             transform: scale(1.05);

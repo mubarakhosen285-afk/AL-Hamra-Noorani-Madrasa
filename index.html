@@ -33,8 +33,6 @@
             width: auto;
             padding: 10px;
             margin-left: auto;
-            margin-right: 140px;
-           
         }
 
         :root {
@@ -2669,7 +2667,7 @@ table.due-table td.name-cell {
     .feedback-admin-list{min-height:100px}
 
     @media(max-width:600px){.visitor-counter-card{top:8px;right:92px;margin:0;padding:0}.visitor-more-btn{width:48px;height:48px;flex-basis:48px;border-radius:12px;padding-top:7px}.admin-quick-menu{top:54px;right:0}.visitor-modal{padding:7px;align-items:flex-end}.visitor-modal-box{max-height:90vh;border-radius:16px 16px 10px 10px}.visitor-modal-head{padding:14px}.visitor-modal-tools{padding:10px;flex-wrap:wrap}.visitor-modal-tools input{flex-basis:100%}.visitor-list{padding:10px}.visitor-item{padding:10px;grid-template-columns:34px 1fr}.visitor-item-icon{width:34px;height:34px}}
-</style>
+\n</style>
 <style id="visitor-menu-position-fix">
 /* ৩ লাইনের মেনু: উপরের ডান পাশে স্থির অবস্থান */
 .topbar { overflow: visible !important; }
@@ -2752,7 +2750,7 @@ table.due-table td.name-cell {
                     <h1 class="ay-bay"><a href=" https://mubarakhosen285-afk.github.io/Al-hamra-Nurani-madrasa-calculate/"> আয়-ব্যয় হিসাব তৈরি</a></h1>
                 </div>
                 <div>
-                    <h1 class="ay-bay"><a href="https://mubarakhosen285-afk.github.io/-AHNM-RESULTS-/">ফলাফল তৈরি</a></h1>
+                    <h1 class="ay-bay"><a href="#" onclick="document.querySelector('.tab-btn[data-tab=\'results\']').click(); return false;">ফলাফল তৈরি</a></h1>
                 </div>
                 <div>
                     <h1 class="ay-bay"> <a href="https://mubarakhosen285-afk.github.io/Al-hamra-Nurani-madrasa-calculate/public.html">আয়-ব্যয় পাবলিক</a></h1>
@@ -2774,6 +2772,8 @@ table.due-table td.name-cell {
                 নোটিশ ও তাগাদা SMS
             </button>
 
+            
+
             <button class="tab-btn tab-corner" data-tab="admission">
                 + ভর্তি ফরম
             </button>
@@ -2785,9 +2785,45 @@ table.due-table td.name-cell {
     <div class="storage-banner" id="storageBanner">
         ⚠️ সতর্কতা: আপনার ব্রাউজারে স্থায়ী স্টোরেজ সক্রিয় নেই।
         তথ্য লোকাল স্টোরেজে সংরক্ষিত হচ্ছে।
+        <button class="tab-btn" data-tab="results">পরীক্ষার ফলাফল</button>
     </div>
 
     <main>
+
+        <!-- ================= EXAM RESULTS ================= -->
+        <section class="panel" id="panel-results">
+            <div class="card">
+                <h2>পরীক্ষার ফলাফল তৈরি</h2>
+                <p class="sub">শ্রেণি ও পরীক্ষা নির্বাচন করে প্রত্যেক শিক্ষার্থীর নম্বর সংরক্ষণ করুন। নম্বরের ভিত্তিতে মেধাস্থান স্বয়ংক্রিয়ভাবে নির্ধারিত হবে; সমান নম্বর হলে রোল নম্বর অনুযায়ী আলাদা স্থান হবে।</p>
+                <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+                    <div class="field"><label>পরীক্ষার বছর</label><input id="resultYear" type="number" min="2000" max="2100"></div>
+                    <div class="field"><label>পরীক্ষার নাম</label><select id="resultExam"><option>১ম সাময়িক পরীক্ষা</option><option>২য় সাময়িক পরীক্ষা</option><option>অর্ধ-বার্ষিক পরীক্ষা</option><option>বার্ষিক পরীক্ষা</option><option>মডেল পরীক্ষা</option></select></div>
+                    <div class="field"><label>শ্রেণি</label><select id="resultClass"><option value="">শ্রেণি বাছাই করুন</option><option>শিশু শ্রেণি</option><option>প্রথম শ্রেণি</option><option>দ্বিতীয় শ্রেণি</option><option>তৃতীয় শ্রেণি</option></select></div>
+                    <div class="field"><label>শিক্ষার্থী (রোল অনুযায়ী)</label><select id="resultStudent"><option value="">আগে শ্রেণি বাছাই করুন</option></select></div>
+                </div>
+                <div id="resultMarksFields" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:15px"></div>
+                <button class="btn primary" id="saveResultBtn" type="button" style="margin-top:15px">ফলাফল সংরক্ষণ করুন</button>
+                <div id="resultAdminMsg" style="margin-top:12px"></div>
+            </div>
+            <div class="card" style="margin-top:18px">
+                <h2>নির্বাচিত পরীক্ষার ফলাফল</h2>
+                <p class="sub">সব শিক্ষার্থীর ফলাফল তৈরি হলে তালিকা যাচাই করে প্রকাশ করুন। তালিকা রোল অনুযায়ী সাজানো থাকবে।</p>
+                <div id="adminSavedResults">শ্রেণি ও পরীক্ষা নির্বাচন করুন।</div>
+                <button class="btn primary" id="publishResultsBtn" type="button" style="margin-top:14px">সব ফলাফল পাবলিক করুন</button>
+                <div id="publishResultMsg" style="margin-top:10px"></div>
+            </div>
+            <div class="card" style="margin-top:18px">
+                <h2>বার্ষিক ফলাফলের ভিত্তিতে পরের শ্রেণিতে উত্তীর্ণ</h2>
+                <p class="sub">শুধু প্রকাশিত বার্ষিক ফলাফলের শিক্ষার্থীদের এখানে আনা হবে। উত্তীর্ণদের নতুন শ্রেণিতে নতুন শিক্ষার্থী রেকর্ড তৈরি হবে; পুরোনো শ্রেণি ও বেতন ইতিহাস মুছে ফেলা হবে না।</p>
+                <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+                    <div class="field"><label>বার্ষিক পরীক্ষার বছর</label><input id="promotionYear" type="number" min="2000" max="2100"></div>
+                    <div class="field"><label>যে শ্রেণির ফলাফল</label><select id="promotionClass"><option value="">শ্রেণি বাছাই করুন</option><option>শিশু শ্রেণি</option><option>প্রথম শ্রেণি</option><option>দ্বিতীয় শ্রেণি</option><option>তৃতীয় শ্রেণি</option></select></div>
+                </div>
+                <div id="promotionPreview" style="margin-top:12px"></div>
+                <button class="btn primary" id="promoteStudentsBtn" type="button" style="margin-top:12px">উত্তীর্ণ শিক্ষার্থীদের পরের শ্রেণিতে যুক্ত করুন</button>
+                <div id="promotionMsg" style="margin-top:10px"></div>
+            </div>
+        </section>
 
         <!-- ================= ADMISSION ================= -->
 
@@ -7323,6 +7359,49 @@ Visit: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
 
             })
             .catch(console.error);
+
+        // ================= FIREBASE EXAM RESULT MANAGER =================
+        // Result drafts and publication are kept separate: only published rows appear publicly.
+        const resultSubjectsByClass = {
+            'শিশু শ্রেণি':['বাংলা','ইংরেজি','গণিত','আরবি লিখা','ইসলাম শিক্ষা'],
+            'প্রথম শ্রেণি':['বাংলা','ইংরেজি','গণিত','আরবি লিখা','ইসলাম শিক্ষা','কায়দা'],
+            'দ্বিতীয় শ্রেণি':['বাংলা','ইংরেজি','গণিত','আরবি লিখা','ইসলাম শিক্ষা','কুরআন মাজীদ','উর্দু ও সাধারণ জ্ঞান'],
+            'তৃতীয় শ্রেণি':['বাংলা','ইংরেজি','গণিত','আরবি লিখা ও শিক্ষা','ইসলাম শিক্ষা','কুরআন মাজীদ ও তাজবীদ','উর্দু ও সাধারণ জ্ঞান']
+        };
+        const resultClassCodes = {'শিশু শ্রেণি':'c0','প্রথম শ্রেণি':'c1','দ্বিতীয় শ্রেণি':'c2','তৃতীয় শ্রেণি':'c3'};
+        const resultClassOrder = ['শিশু শ্রেণি','প্রথম শ্রেণি','দ্বিতীয় শ্রেণি','তৃতীয় শ্রেণি'];
+        const resultBn = n => String(n ?? '').replace(/[0-9]/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
+        const resultEsc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        function resultGrade(avg){return avg>=80?'A+':avg>=70?'A':avg>=60?'A-':avg>=50?'B':avg>=40?'C':avg>=33?'D':'F';}
+        function resultMsg(t,ok=true,id='resultAdminMsg'){const e=document.getElementById(id);if(e){e.textContent=t;e.style.color=ok?'#14733c':'#b42318';}}
+        function resultGroupKey(){const y=document.getElementById('resultYear').value, ex=document.getElementById('resultExam').value, cl=document.getElementById('resultClass').value;return y&&cl?`${y}_${encodeURIComponent(ex)}_${resultClassCodes[cl]}`:'';}
+        function resultRecordId(group,roll){return `${group}_${encodeURIComponent(String(roll))}`;}
+        async function resultDb(){const db=await waitForFirebase();if(!db||!window.firebaseFns)throw Error('Firebase সংযোগ পাওয়া যায়নি। আবার লগইন করে চেষ্টা করুন।');return db;}
+        async function resultGet(path){const db=await resultDb();const snap=await window.firebaseFns.get(window.firebaseFns.ref(db,path));return snap.exists()?snap.val():null;}
+        async function resultSet(path,value){const db=await resultDb();return window.firebaseFns.set(window.firebaseFns.ref(db,path),value);}
+        function resultSortRoll(a,b){const x=String(a.roll),y=String(b.roll);const nx=Number(x),ny=Number(y);return Number.isFinite(nx)&&Number.isFinite(ny)?nx-ny:x.localeCompare(y,'bn');}
+        let editingResultId = null;
+        let editingResultWasPublished = false;
+        function resetResultEditor(){editingResultId=null;editingResultWasPublished=false;const b=document.getElementById('saveResultBtn');b.textContent='ফলাফল সংরক্ষণ করুন';document.getElementById('resultStudent').disabled=false;document.getElementById('resultAdminMsg').textContent='';}
+        async function editExamResult(id){try{const draft=await resultGet('examResultDrafts/'+id);const pub=await resultGet('publicResults/'+id);const rec=draft||pub;if(!rec)throw Error('ফলাফলটি পাওয়া যায়নি।');editingResultId=id;editingResultWasPublished=!!pub;document.getElementById('resultYear').value=rec.year;document.getElementById('resultExam').value=rec.exam;document.getElementById('resultClass').value=rec.className;await buildResultMarkInputs();await loadResultStudents();const sel=document.getElementById('resultStudent');sel.value=String(rec.roll);sel.disabled=true;document.querySelectorAll('.result-mark-row').forEach(row=>{const m=(rec.marks||[]).find(x=>x.subject===row.dataset.subject);const input=row.querySelector('.result-mark');const absent=row.querySelector('.result-absent');if(m?.absent){absent.checked=true;input.disabled=true;input.value='';}else{input.value=m?.mark??0;}});document.getElementById('saveResultBtn').textContent='পরিবর্তন সংরক্ষণ করুন';document.getElementById('resultMarksFields').scrollIntoView({behavior:'smooth',block:'center'});resultMsg(`রোল ${rec.roll}-এর ফলাফল সম্পাদনার জন্য খোলা হয়েছে।`);}catch(e){resultMsg('সম্পাদনা করা যায়নি: '+e.message,false);}}
+        async function deleteExamResult(id){if(!confirm('এই শিক্ষার্থীর ফলাফল খসড়া ও পাবলিক তালিকা—দুই জায়গা থেকেই মুছে ফেলবেন?'))return;try{const draft=await resultGet('examResultDrafts/'+id),pub=await resultGet('publicResults/'+id);if(!draft&&!pub)throw Error('ফলাফলটি আর পাওয়া যাচ্ছে না।');const rec=draft||pub,group=`${rec.year}_${encodeURIComponent(rec.exam)}_${rec.classCode}`,db=await resultDb();await window.firebaseFns.remove(window.firebaseFns.ref(db,'examResultDrafts/'+id));await window.firebaseFns.remove(window.firebaseFns.ref(db,'publicResults/'+id));const remaining=Object.entries(await resultGet('publicResults')||{}).filter(([k])=>k.startsWith(group+'_'));const meta=await resultGet('publicResultsMeta/'+group);if(meta){if(remaining.length)await resultSet('publicResultsMeta/'+group,{...meta,totalStudents:remaining.length,updatedAt:Date.now()});else await window.firebaseFns.remove(window.firebaseFns.ref(db,'publicResultsMeta/'+group));}await loadResultStudents();await loadAdminSavedResults();resultMsg(`রোল ${rec.roll}-এর ফলাফল মুছে ফেলা হয়েছে।`);}catch(e){resultMsg('মুছতে পারা যায়নি: '+e.message,false);}}
+        async function buildResultMarkInputs(){const cls=document.getElementById('resultClass').value,box=document.getElementById('resultMarksFields');box.innerHTML='';(resultSubjectsByClass[cls]||[]).forEach(subject=>{const d=document.createElement('div');d.className='field result-mark-row';d.dataset.subject=subject;d.innerHTML=`<label>${resultEsc(subject)} (১০০)</label><input class="result-mark" data-subject="${resultEsc(subject)}" type="number" min="0" max="100" value="0" step="0.5"><label style="display:flex;align-items:center;gap:7px;margin-top:7px;font-weight:500"><input class="result-absent" type="checkbox" style="width:auto;margin:0"> অনুপস্থিত</label>`;const absent=d.querySelector('.result-absent'),mark=d.querySelector('.result-mark');absent.addEventListener('change',()=>{mark.disabled=absent.checked;if(absent.checked)mark.value='';else mark.value='0';});box.appendChild(d);});}
+        async function loadResultStudents(){const cls=document.getElementById('resultClass').value,sel=document.getElementById('resultStudent');sel.innerHTML='<option value="">শিক্ষার্থী বাছাই করুন</option>';if(!cls)return;try{const group=resultGroupKey(),drafts=await resultGet('examResultDrafts')||{},published=await resultGet('publicResults')||{},done=new Set([...Object.keys(drafts),...Object.keys(published)]),code=resultClassCodes[cls],keys=await storeListKeys('student:'+code+':'),students=[];for(const key of keys){const raw=await storeGet(key);let st;try{st=typeof raw==='string'?JSON.parse(raw):raw;}catch(_){continue;}if(!st||!st.name)continue;const roll=String(st.roll??key.split(':').pop()),id=group?resultRecordId(group,roll):'';if(id&&done.has(id)&&id!==editingResultId)continue;students.push({roll,name:st.name});}students.sort(resultSortRoll);students.forEach(st=>{const op=document.createElement('option');op.value=st.roll;op.textContent=`রোল ${st.roll} — ${st.name}`;op.dataset.name=st.name;sel.appendChild(op);});if(!students.length)sel.innerHTML='<option value="">এই পরীক্ষায় বাকি শিক্ষার্থীর ফলাফল তৈরি হয়ে গেছে</option>';}catch(e){resultMsg(e.message,false);}}
+        async function saveExamResultToFirebase(){const btn=document.getElementById('saveResultBtn');const wasEditing=!!editingResultId;try{const year=document.getElementById('resultYear').value,exam=document.getElementById('resultExam').value,cls=document.getElementById('resultClass').value,sel=document.getElementById('resultStudent'),roll=sel.value,name=sel.selectedOptions[0]?.dataset.name;if(!year||!cls||!roll||!name)throw Error('বছর, শ্রেণি ও শিক্ষার্থী নির্বাচন করুন।');const wasPublished=editingResultWasPublished,group=resultGroupKey(),id=editingResultId||resultRecordId(group,roll);if(!editingResultId){const existingDraft=await resultGet('examResultDrafts/'+id),existingPublished=await resultGet('publicResults/'+id);if(existingDraft||existingPublished)throw Error(`রোল ${roll}-এর ফলাফল আগে থেকেই তৈরি আছে। তালিকা থেকে সম্পাদনা করুন।`);}const rows=[...document.querySelectorAll('.result-mark-row')];const marks=rows.map(row=>{const absent=row.querySelector('.result-absent').checked;return {subject:row.dataset.subject,mark:absent?null:Number(row.querySelector('.result-mark').value),absent};});if(!marks.length||marks.some(x=>!x.absent&&(!Number.isFinite(x.mark)||x.mark<0||x.mark>100)))throw Error('প্রতিটি বিষয়ের নম্বর ০ থেকে ১০০-এর মধ্যে দিন অথবা অনুপস্থিত নির্বাচন করুন।');const total=marks.reduce((a,b)=>a+(b.absent?0:b.mark),0),full=marks.length*100,average=total/marks.length,allAbsent=marks.every(x=>x.absent),previous=editingResultId?(await resultGet('examResultDrafts/'+id)||await resultGet('publicResults/'+id)):null,record={year:Number(year),exam,className:cls,classCode:resultClassCodes[cls],roll:String(roll),studentName:name,marks,total,fullMarks:full,average:Number(average.toFixed(2)),grade:allAbsent?'অনুপস্থিত':resultGrade(average),status:allAbsent?'অনুপস্থিত':'উপস্থিত',createdAt:previous?.createdAt||Date.now(),updatedAt:Date.now(),published:wasPublished};await resultSet('examResultDrafts/'+id,record);if(wasPublished){const drafts=await resultGet('examResultDrafts')||{},prefix=group+'_',ranked=Object.entries(drafts).filter(([key])=>key.startsWith(prefix)).map(([key,r])=>({id:key,...r})).sort((a,b)=>(a.status==='অনুপস্থিত')-(b.status==='অনুপস্থিত')||b.total-a.total||resultSortRoll(a,b));ranked.forEach((r,i)=>{r.position=i+1;r.published=true;r.publishedAt=Date.now();});for(const r of ranked){const {id:rid,...data}=r;await resultSet('publicResults/'+rid,data);}const meta=await resultGet('publicResultsMeta/'+group);if(meta)await resultSet('publicResultsMeta/'+group,{...meta,totalStudents:ranked.length,updatedAt:Date.now()});}resetResultEditor();resultMsg(wasPublished?'প্রকাশিত ফলাফল সংশোধন করে পাবলিক পেজেও আপডেট করা হয়েছে।':`রোল ${roll}-এর ফলাফল খসড়া হিসেবে সংরক্ষিত হয়েছে।`);await loadResultStudents();await loadAdminSavedResults();}catch(e){console.error(e);resultMsg('সংরক্ষণ হয়নি: '+e.message,false);}finally{btn.disabled=false;btn.textContent=editingResultId?'পরিবর্তন সংরক্ষণ করুন':'ফলাফল সংরক্ষণ করুন';}}
+        async function loadAdminSavedResults(){const box=document.getElementById('adminSavedResults');if(!box)return;const group=resultGroupKey();if(!group){box.textContent='বছর, শ্রেণি ও পরীক্ষা নির্বাচন করুন।';return;}try{const drafts=await resultGet('examResultDrafts')||{},published=await resultGet('publicResults')||{},prefix=group+'_',ids=new Set([...Object.keys(drafts).filter(id=>id.startsWith(prefix)),...Object.keys(published).filter(id=>id.startsWith(prefix))]),students=[...ids].map(id=>({id,record:drafts[id]||published[id],isPublished:!!published[id]})).sort((a,b)=>resultSortRoll(a.record,b.record)),ranked=[...students].sort((a,b)=>(a.record.status==='অনুপস্থিত')-(b.record.status==='অনুপস্থিত')||Number(b.record.total||0)-Number(a.record.total||0)||resultSortRoll(a.record,b.record));ranked.forEach((x,i)=>{x.record.position=i+1;});const pos=new Map(ranked.map(x=>[String(x.record.roll),x.record.position]));box.innerHTML=students.length?`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th>রোল</th><th>নাম</th><th>মোট</th><th>গ্রেড</th><th>মেধাস্থান</th><th>অবস্থা</th><th>কাজ</th></tr></thead><tbody>${students.map(x=>{const r=x.record;return `<tr><td>${resultEsc(r.roll)}</td><td>${resultEsc(r.studentName)}</td><td>${r.status==='অনুপস্থিত'?'—':`${resultBn(r.total)}/${resultBn(r.fullMarks)}`}</td><td>${resultEsc(r.grade)}</td><td>${resultBn(pos.get(String(r.roll)))}</td><td>${x.isPublished?'প্রকাশিত':'খসড়া'}</td><td><button type="button" class="btn btn-sm" data-edit-result="${resultEsc(x.id)}">সম্পাদনা</button> <button type="button" class="btn btn-alert btn-sm" data-remove-result="${resultEsc(x.id)}">মুছুন</button></td></tr>`;}).join('')}</tbody></table></div><p>সংরক্ষিত: ${resultBn(students.length)} জন</p>`:'এখনো কোনো ফলাফল তৈরি হয়নি।';box.querySelectorAll('[data-edit-result]').forEach(b=>b.addEventListener('click',()=>editExamResult(b.dataset.editResult)));box.querySelectorAll('[data-remove-result]').forEach(b=>b.addEventListener('click',()=>deleteExamResult(b.dataset.removeResult)));const publishedCount=students.filter(x=>x.isPublished).length,btn=document.getElementById('publishResultsBtn');btn.textContent=publishedCount?'প্রকাশ বন্ধ করুন':'সব ফলাফল প্রকাশ করুন';btn.dataset.action=publishedCount?'unpublish':'publish';btn.disabled=!students.length;resultMsg(publishedCount?'ফলাফল বর্তমানে প্রকাশিত আছে। চাইলে প্রকাশ বন্ধ করতে পারেন।':'প্রকাশের আগে সব শিক্ষার্থীর ফলাফল তৈরি ও যাচাই করুন।',true,'publishResultMsg');}catch(e){box.textContent='ফলাফল লোড হয়নি: '+e.message;}}
+        async function publishAllExamResults(){const btn=document.getElementById('publishResultsBtn');try{const group=resultGroupKey(),cls=document.getElementById('resultClass').value;if(!group||!cls)throw Error('বছর, শ্রেণি ও পরীক্ষা নির্বাচন করুন।');const drafts=await resultGet('examResultDrafts')||{},published=await resultGet('publicResults')||{},prefix=group+'_',records=Object.entries(drafts).filter(([id])=>id.startsWith(prefix));if(btn.dataset.action==='unpublish'){if(!confirm('এই পরীক্ষার প্রকাশিত ফলাফল কি পাবলিক পেজ থেকে বন্ধ করবেন? খসড়া ফলাফল মুছে যাবে না।'))return;const db=await resultDb();for(const id of Object.keys(published).filter(id=>id.startsWith(prefix)))await window.firebaseFns.remove(window.firebaseFns.ref(db,'publicResults/'+id));await window.firebaseFns.remove(window.firebaseFns.ref(db,'publicResultsMeta/'+group));await loadAdminSavedResults();resultMsg('ফলাফল প্রকাশ বন্ধ করা হয়েছে। খসড়া ফলাফল সংরক্ষিত আছে।',true,'publishResultMsg');return;}const keys=await storeListKeys('student:'+resultClassCodes[cls]+':');if(!keys.length)throw Error('এই শ্রেণিতে শিক্ষার্থী নেই।');if(records.length!==keys.length)throw Error(`সব শিক্ষার্থীর ফলাফল তৈরি হয়নি। মোট শিক্ষার্থী ${keys.length} জন, ফলাফল তৈরি ${records.length} জন।`);const ranked=records.map(([id,r])=>({id,...r})).sort((a,b)=>(a.status==='অনুপস্থিত')-(b.status==='অনুপস্থিত')||b.total-a.total||resultSortRoll(a,b));ranked.forEach((r,i)=>{r.position=i+1;r.published=true;r.publishedAt=Date.now();});for(const r of ranked){const {id,...record}=r;await resultSet('publicResults/'+id,record);}await resultSet('publicResultsMeta/'+group,{year:Number(document.getElementById('resultYear').value),exam:document.getElementById('resultExam').value,className:cls,totalStudents:ranked.length,published:true,publishedAt:Date.now()});resultMsg('সফলভাবে সব শিক্ষার্থীর ফলাফল পাবলিক করা হয়েছে।');await loadAdminSavedResults();}catch(e){console.error(e);resultMsg(e.message,false,'publishResultMsg');}finally{btn.disabled=false;}}
+        async function loadPromotionPreview(){const box=document.getElementById('promotionPreview'),cls=document.getElementById('promotionClass').value,year=document.getElementById('promotionYear').value;box.innerHTML='';if(!cls||!year)return;try{const group=`${year}_${encodeURIComponent('বার্ষিক পরীক্ষা')}_${resultClassCodes[cls]}`,meta=await resultGet('publicResultsMeta/'+group);if(!meta?.published)throw Error('এই বছরের বার্ষিক ফলাফল এখনো পাবলিক করা হয়নি।');const data=await resultGet('publicResults')||{},rows=Object.entries(data).filter(([id,r])=>id.startsWith(group+'_')&&r.published).map(([id,r])=>({id,...r})).sort(resultSortRoll);const pass=rows.filter(r=>Number(r.average)>=33);box.innerHTML=`মোট ${resultBn(rows.length)} জন • উত্তীর্ণ ${resultBn(pass.length)} জন • অনুত্তীর্ণ ${resultBn(rows.length-pass.length)} জন`;box.dataset.group=group;}catch(e){box.textContent=e.message;box.dataset.group='';}}
+        async function promoteAnnualStudents(){const btn=document.getElementById('promoteStudentsBtn');try{const cls=document.getElementById('promotionClass').value,year=document.getElementById('promotionYear').value,group=document.getElementById('promotionPreview').dataset.group;if(!cls||!year||!group)throw Error('প্রকাশিত বার্ষিক ফলাফল নির্বাচন করুন।');if(!confirm('উত্তীর্ণ শিক্ষার্থীদের পরের শ্রেণিতে নতুন শিক্ষার্থী হিসেবে যুক্ত করবেন? পুরোনো রেকর্ড অক্ষত থাকবে।'))return;const toIndex=resultClassOrder.indexOf(cls);if(toIndex<0||toIndex===3)throw Error('তৃতীয় শ্রেণির পর এই ব্যবস্থায় পরের শ্রেণি নির্ধারিত নেই।');const nextClass=resultClassOrder[toIndex+1],fromCode=resultClassCodes[cls],toCode=resultClassCodes[nextClass],data=await resultGet('publicResults')||{},rows=Object.entries(data).filter(([id,r])=>id.startsWith(group+'_')&&r.published&&Number(r.average)>=33).map(([id,r])=>r).sort(resultSortRoll);if(!rows.length)throw Error('উত্তীর্ণ শিক্ষার্থী পাওয়া যায়নি।');let added=0,skipped=[];for(const r of rows){const source=await getStudent(r.roll,cls);if(!source){skipped.push(`${r.roll} (মূল শিক্ষার্থী তথ্য নেই)`);continue;}const targetKey=`student:${toCode}:${r.roll}`,exists=await storeGet(targetKey);if(exists){skipped.push(`${r.roll} (পরের শ্রেণিতে একই রোল আগে থেকেই আছে)`);continue;}const promoted={...source,className:nextClass,previousClass:cls,promotedFromYear:Number(year),promotedAt:Date.now()};await storeSet(targetKey,JSON.stringify(promoted));const oldFee=await getFees(r.roll,cls);await storeSet(`fee:${toCode}:${r.roll}`,JSON.stringify([]));await resultSet(`studentPromotionHistory/${year}/${fromCode}_${encodeURIComponent(String(r.roll))}`,{roll:String(r.roll),name:source.name,fromClass:cls,toClass:nextClass,year:Number(year),average:r.average,grade:r.grade,previousFeeRecordPreserved:true,previousFeeCount:Array.isArray(oldFee)?oldFee.length:0,promotedAt:Date.now()});added++;}resultMsg(`পরের শ্রেণিতে ${added} জন যুক্ত হয়েছে। ${skipped.length? 'যাদের যুক্ত করা যায়নি: '+skipped.join(', '):'সব উত্তীর্ণ শিক্ষার্থী যুক্ত হয়েছে।'}`,skipped.length===0,'promotionMsg');}catch(e){console.error(e);resultMsg(e.message,false,'promotionMsg');}finally{btn.disabled=false;btn.textContent='উত্তীর্ণ শিক্ষার্থীদের পরের শ্রেণিতে যুক্ত করুন';}}
+        document.getElementById('resultClass')?.addEventListener('change',async()=>{resetResultEditor();await buildResultMarkInputs();await loadResultStudents();await loadAdminSavedResults();});
+        ['resultYear','resultExam'].forEach(id=>document.getElementById(id)?.addEventListener('change',()=>{resetResultEditor();loadAdminSavedResults();}));
+        document.getElementById('saveResultBtn')?.addEventListener('click',function(){this.disabled=true;this.textContent='সংরক্ষণ হচ্ছে...';saveExamResultToFirebase();});
+        document.getElementById('publishResultsBtn')?.addEventListener('click',function(){this.disabled=true;this.textContent=this.dataset.action==='unpublish'?'বন্ধ হচ্ছে...':'প্রকাশ হচ্ছে...';publishAllExamResults();});
+        document.getElementById('promotionClass')?.addEventListener('change',loadPromotionPreview);
+        document.getElementById('promotionYear')?.addEventListener('change',loadPromotionPreview);
+        document.getElementById('promoteStudentsBtn')?.addEventListener('click',function(){this.disabled=true;this.textContent='যুক্ত হচ্ছে...';promoteAnnualStudents();});
+        document.querySelector('.tab-btn[data-tab="results"]')?.addEventListener('click',()=>{loadAdminSavedResults();});
+        document.getElementById('resultYear').value=new Date().getFullYear();
+        document.getElementById('promotionYear').value=new Date().getFullYear();
 
     </script>
 
