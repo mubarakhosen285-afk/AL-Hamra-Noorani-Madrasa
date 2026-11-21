@@ -16,9 +16,12 @@
             border: 1px solid white;
             padding: 5px 10px;
             border-radius: 10px;
+            transition: 0.5s;
+            transform: scale(1);
         }
         .ay-bay:hover{
             background: #559e4b81;
+            transform: scale(1.05);
         }
         .ay-bay a{
             text-decoration: none;
@@ -32,8 +35,11 @@
             gap: 10px;
             width: auto;
             padding: 10px;
-            margin-left: auto;
+           margin-left: auto;
+
+            
         }
+       
 
         :root {
             --green-deep: #0F3D2E;
@@ -2696,6 +2702,20 @@ table.due-table td.name-cell {
   #adminQuickMenu.admin-quick-menu { top: 50px !important; right: 0 !important; width: min(220px, calc(100vw - 24px)); }
 }
 </style>
+
+    <link rel="stylesheet" href="design-upgrade.css">
+    <!-- ===== PWA (অ্যাডমিন অ্যাপ) ===== -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f3d2e">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="হামরা অ্যাডমিন">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+    <script src="pwa-admin.js" defer></script>
+    <script src="exam-routine-admin.js" defer></script>
 </head>
 
 <body class="auth-locked">
@@ -2753,8 +2773,9 @@ table.due-table td.name-cell {
                     <h1 class="ay-bay"><a href="#" onclick="document.querySelector('.tab-btn[data-tab=\'results\']').click(); return false;">ফলাফল তৈরি</a></h1>
                 </div>
                 <div>
-                    <h1 class="ay-bay"> <a href="https://mubarakhosen285-afk.github.io/Al-hamra-Nurani-madrasa-calculate/public.html">আয়-ব্যয় পাবলিক</a></h1>
+                    <h1 class="ay-bay"><a href="#" onclick="document.querySelector('.tab-btn[data-tab=\'routine\']').click(); return false;">পরীক্ষার রুটিন</a></h1>
                 </div>
+              
             </div>
         </div>
 
@@ -2777,6 +2798,8 @@ table.due-table td.name-cell {
             <button class="tab-btn tab-corner" data-tab="admission">
                 + ভর্তি ফরম
             </button>
+
+            <button class="tab-btn" data-tab="routine" type="button" style="display:none" tabindex="-1" aria-hidden="true">পরীক্ষার রুটিন</button>
 
         </div>
 
@@ -2823,6 +2846,52 @@ table.due-table td.name-cell {
                 <button class="btn primary" id="promoteStudentsBtn" type="button" style="margin-top:12px">উত্তীর্ণ শিক্ষার্থীদের পরের শ্রেণিতে যুক্ত করুন</button>
                 <div id="promotionMsg" style="margin-top:10px"></div>
             </div>
+        </section>
+
+        <!-- ================= EXAM ROUTINE (নতুন) ================= -->
+        <section class="panel" id="panel-routine">
+            <div class="card">
+                <h2>📅 পরীক্ষার রুটিন তৈরি</h2>
+                <p class="sub">তারিখ ও শ্রেণি অনুযায়ী বিষয় লিখে রুটিন সংরক্ষণ করুন। সংরক্ষণ করলেই পাবলিক পেজে দেখা যাবে না — নিচের তালিকা থেকে "পাবলিক করুন" চাপলে তবেই প্রকাশিত হবে।</p>
+                <div id="routineEditBanner" class="routine-edit-banner" style="display:none">✏️ আপনি একটি সংরক্ষিত রুটিন সম্পাদনা করছেন। শেষে "পরিবর্তন সংরক্ষণ করুন" চাপুন।</div>
+
+                <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+                    <div class="field"><label for="routineYear">পরীক্ষার বছর</label><input id="routineYear" type="number" min="2000" max="2100"></div>
+                    <div class="field"><label for="routineExam">পরীক্ষার নাম</label>
+                        <select id="routineExam">
+                            <option>বার্ষিক পরীক্ষা</option>
+                            <option>১ম সাময়িক পরীক্ষা</option>
+                            <option>২য় সাময়িক পরীক্ষা</option>
+                            <option>অর্ধ-বার্ষিক পরীক্ষা</option>
+                            <option>মডেল পরীক্ষা</option>
+                        </select>
+                    </div>
+                    <div class="field"><label for="routineDefaultTime">সাধারণ পরীক্ষার সময়</label><input id="routineDefaultTime" type="text" maxlength="60" value="সকাল ৯:০০" placeholder="যেমন: সকাল ৯:০০ – ১১:০০"></div>
+                </div>
+                <div class="field" style="margin-top:12px"><label for="routineTitle">রুটিনের শিরোনাম (ঐচ্ছিক)</label><input id="routineTitle" type="text" maxlength="120" placeholder="ফাঁকা রাখলে স্বয়ংক্রিয়ভাবে তৈরি হবে"></div>
+
+                <h3 class="routine-sub">পরীক্ষার দিনসমূহ</h3>
+                <div id="routineRows" class="routine-rows"></div>
+                <button class="btn btn-ghost" id="routineAddRow" type="button">+ নতুন দিন যোগ করুন</button>
+
+                <div class="field" style="margin-top:16px"><label for="routineNote">বিশেষ নির্দেশনা (ঐচ্ছিক)</label><textarea id="routineNote" rows="3" maxlength="600" placeholder="যেমন: পরীক্ষার্থীরা ৩০ মিনিট আগে উপস্থিত হবে।"></textarea></div>
+
+                <div class="row-actions" style="margin-top:16px">
+                    <button class="btn btn-primary" id="routineSaveBtn" type="button">রুটিন সংরক্ষণ করুন</button>
+                    <button class="btn btn-ghost" id="routineResetBtn" type="button">ফাঁকা করুন</button>
+                </div>
+                <div id="routineMsg" class="routine-msg" role="status" aria-live="polite"></div>
+            </div>
+
+            <div class="card" style="margin-top:18px">
+                <h2>সংরক্ষিত রুটিন ও পাবলিক নিয়ন্ত্রণ</h2>
+                <p class="sub">একসময়ে একটি রুটিনই পাবলিক পেজে দেখা যাবে। নতুন রুটিন পাবলিক করলে আগেরটির জায়গা নেবে।</p>
+                <div id="routinePublicStatus" class="routine-status off"></div>
+                <div id="routineList" class="routine-list">লোড হচ্ছে...</div>
+            </div>
+
+            <datalist id="rt-list-c0"></datalist><datalist id="rt-list-c1"></datalist>
+            <datalist id="rt-list-c2"></datalist><datalist id="rt-list-c3"></datalist>
         </section>
 
         <!-- ================= ADMISSION ================= -->

@@ -1,0 +1,181 @@
+/* =====================================================================
+   design-upgrade.css  —  আল হামরা নূরানী মাদ্রাসা (Admin Panel)
+   ধাপ ১: শুধু ডিজাইন। কোনো JavaScript, ডেটা, Field বা হিসাবের নিয়ম পরিবর্তন করা হয়নি।
+   এই ফাইল সবার শেষে লোড হয়। মুছে দিলে আগের ডিজাইন ফিরে আসবে।
+   ===================================================================== */
+
+:root{
+  --hd-radius: 14px;
+  --hd-radius-sm: 10px;
+  --hd-focus: 0 0 0 3px rgba(201,162,39,.35);
+  --hd-shadow-sm: 0 2px 8px rgba(15,61,46,.08);
+  --hd-shadow-md: 0 10px 30px rgba(15,61,46,.12);
+}
+
+/* ---------- বাংলা ফন্ট সব জায়গায় (button/input/select আগে ডিফল্ট ফন্টে ছিল) ---------- */
+button, input, select, textarea, .tab-btn, .btn{
+  font-family: 'Hind Siliguri', system-ui, sans-serif;
+}
+body{ line-height:1.6; text-rendering:optimizeLegibility; }
+
+/* ---------- হেডার: বাটনের রং ও জায়গা ---------- */
+.ay-bay{ margin:0; background:rgba(255,255,255,.10); border:1px solid rgba(244,233,200,.55); }
+.ay-bay:hover{ background:rgba(201,162,39,.28); }
+.ay-bay a{ color:#f4e9c8 !important; font-size:.92rem !important; font-weight:700; white-space:nowrap; display:block; }
+.new-update{ padding:0; gap:8px; flex-wrap:nowrap; }
+
+/* ডেস্কটপ: ভিজিটর মেনু বাটন আর "ফলাফল তৈরি" যেন একে অপরের ওপর না পড়ে */
+@media (min-width:601px){
+  /* ডান কোণে স্থির "লগআউট" বাটন থাকে; তাই ৩-লাইন মেনু তার বাঁ পাশে বসানো হয়েছে, নিচে চাপা পড়ে না */
+  .new-update{ margin-right:196px; }
+  #siteVisitCounterCard.visitor-counter-card{ right:136px !important; top:12px !important; }
+  #admin-logout-button{ z-index:20000; }
+}
+
+/* ভিজিটর মেনু বাটন: ভেতরের লেখা বাটনের বাইরে বেরোত না */
+#visitorMoreBtn.visitor-more-btn{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:3px; padding:5px 3px 4px; overflow:hidden;
+}
+#visitorMoreBtn .visitor-menu-line{ width:20px; }
+#siteVisitCount{ font-size:.66rem; }
+
+/* ---------- ট্যাব ---------- */
+.tab-btn{
+  font-weight:600; letter-spacing:.1px; cursor:pointer;
+  transition:background .2s, color .2s, transform .15s, box-shadow .2s;
+}
+.tab-btn.active{ box-shadow:0 4px 12px rgba(201,162,39,.35); }
+.tab-btn:focus-visible{ outline:none; box-shadow:var(--hd-focus); }
+
+/* ---------- কার্ড ও প্যানেল ---------- */
+.card{
+  border-radius:18px; border:1px solid #e6e0cf;
+  box-shadow:var(--hd-shadow-sm);
+}
+.card h2{ font-family:'Noto Serif Bengali',serif; }
+
+/* ---------- ফর্ম ---------- */
+.field label, label{ font-weight:600; }
+input[type="text"], input[type="search"], input[type="number"], input[type="tel"],
+input[type="email"], input[type="password"], input[type="date"], select, textarea{
+  border-radius:var(--hd-radius-sm);
+  border:1px solid #d6d0bd;
+  background-color:#fff;
+  transition:border-color .2s, box-shadow .2s;
+}
+input:focus, select:focus, textarea:focus{
+  outline:none; border-color:var(--green); box-shadow:var(--hd-focus);
+}
+textarea{ line-height:1.7; }
+
+/* ছবি আপলোড (ফাইল ইনপুট): ডিফল্ট কুৎসিত বাটন সুন্দর করা */
+input[type="file"]{
+  width:100%; padding:8px; background:#fcfbf7;
+  border:1px dashed #b9b19a; border-radius:var(--hd-radius-sm);
+  font-size:.9rem; color:var(--ink-soft); cursor:pointer;
+}
+input[type="file"]::file-selector-button{
+  margin-right:12px; padding:9px 16px; border:0; border-radius:8px;
+  background:var(--green-deep); color:#fff; font:600 .88rem 'Hind Siliguri',sans-serif; cursor:pointer;
+}
+input[type="file"]::file-selector-button:hover{ background:var(--green); }
+
+/* চেকবক্স: বিশাল নীল বক্স ঠিক করা ও লেখার পাশে সুন্দরভাবে বসানো */
+.check-line{
+  display:flex; align-items:center; gap:12px; padding:12px 14px;
+  background:#f5f8f5; border:1px solid #dfe8e0; border-radius:var(--hd-radius-sm);
+}
+.check-line input[type="checkbox"]{
+  width:22px; height:22px; flex:0 0 22px; margin:0; accent-color:var(--green);
+}
+.check-line label{ margin:0; line-height:1.5; font-size:.92rem; color:var(--ink); }
+input[type="checkbox"]{ accent-color:var(--green); }
+
+/* ---------- বাটন ---------- */
+.btn{
+  border-radius:var(--hd-radius-sm); font-weight:700; min-height:44px;
+  transition:background .2s, transform .12s, box-shadow .2s;
+}
+.btn:hover{ box-shadow:var(--hd-shadow-sm); }
+.btn:active{ transform:translateY(1px); }
+.btn:focus-visible{ outline:none; box-shadow:var(--hd-focus); }
+.btn-sm{ min-height:34px; }
+
+/* ---------- টেবিল ---------- */
+.table-wrap{ border-radius:var(--hd-radius); -webkit-overflow-scrolling:touch; }
+table thead th{ font-weight:700; }
+table tbody tr:hover{ background:rgba(231,239,232,.45); }
+
+/* ---------- মডাল ---------- */
+.modal-overlay{ backdrop-filter:blur(3px); }
+.modal-box{ border-radius:20px; box-shadow:0 24px 60px rgba(8,22,15,.35); }
+
+/* ---------- ফুটার ---------- */
+footer{ line-height:1.8; padding-bottom:28px; }
+footer span{
+  display:inline-block; margin-top:6px; padding:4px 14px;
+  border-radius:999px; background:rgba(201,162,39,.16);
+  color:#7a5d0c !important; font:600 .82rem 'Hind Siliguri',sans-serif !important;
+}
+
+/* ---------- লগইন স্ক্রিন ---------- */
+.login-card{ border-top:5px solid var(--gold); }
+.login-card input:focus{ outline:none; border-color:#1B5E42; box-shadow:var(--hd-focus); }
+.login-card button{ transition:background .2s, transform .12s; }
+.login-card button:hover{ background:#1B5E42; }
+
+/* ---------- মোবাইল ---------- */
+@media (max-width:600px){
+  .ay-bay a{ font-size:.78rem !important; }
+  .card{ border-radius:16px; }
+  input[type="text"], input[type="search"], input[type="number"], input[type="tel"],
+  input[type="email"], input[type="password"], input[type="date"], select, textarea{ font-size:16px; } /* iOS জুম বন্ধ */
+  .btn{ min-height:46px; }
+  .row-actions{ gap:10px; }
+}
+
+/* ---------- কম নড়াচড়া পছন্দ করলে অ্যানিমেশন বন্ধ ---------- */
+@media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } }
+
+/* ভিজিটর মেনু বাটনের পেছনের কালো কোণ দূর করা */
+#siteVisitCounterCard.visitor-counter-card, #siteVisitCounterCard.visit{
+  background:transparent !important; box-shadow:none !important; border:0 !important;
+}
+
+/* =====================================================================
+   পরীক্ষার রুটিন (নতুন) — Admin
+   ===================================================================== */
+.routine-sub{ margin:22px 0 10px; font:700 1.02rem 'Noto Serif Bengali',serif; color:var(--green-deep); }
+.routine-edit-banner{ margin:0 0 14px; padding:10px 14px; border-radius:var(--hd-radius-sm); background:#fff7dc; border:1px solid #ecd98e; color:#7a5d0c; font-weight:600; font-size:.9rem; }
+.routine-rows{ display:grid; gap:12px; margin-bottom:12px; }
+.routine-row{ border:1px solid #e1dbc8; border-left:5px solid var(--gold); border-radius:var(--hd-radius); background:#fcfbf7; padding:14px; }
+.routine-row-top{ display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end; margin-bottom:12px; }
+.routine-subjects{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.routine-cell label{ display:block; font-size:.8rem; color:var(--ink-soft); margin-bottom:4px; font-weight:600; }
+.routine-cell input{ width:100%; padding:10px 12px; min-height:42px; }
+.rt-day{ display:block; margin-top:4px; font-size:.8rem; font-weight:700; color:#7a5d0c; min-height:1.2em; }
+.routine-msg{ margin-top:12px; font-weight:600; }
+.routine-msg.good{ color:#14733c; } .routine-msg.bad{ color:#b42318; }
+.routine-status{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:12px 14px; border-radius:var(--hd-radius-sm); margin-bottom:14px; font-weight:600; }
+.routine-status.on{ background:#e9f6ee; border:1px solid #bfe0cc; color:#14573a; }
+.routine-status.off{ background:#f3f1ea; border:1px solid #e1dbc8; color:var(--ink-soft); }
+.routine-list{ display:grid; gap:10px; }
+.routine-item{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:14px; border:1px solid #e1dbc8; border-radius:var(--hd-radius); background:#fff; }
+.routine-item.live{ border-color:#9fd0b4; background:#f6fbf8; }
+.ri-title{ font-weight:700; color:var(--green-deep); }
+.ri-meta{ font-size:.82rem; color:var(--ink-soft); margin-top:2px; }
+.ri-badge{ display:inline-block; margin-top:6px; padding:2px 10px; border-radius:999px; background:#e9f6ee; color:#14573a; font-size:.78rem; font-weight:700; }
+.ri-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+@media (max-width:760px){
+  .routine-subjects{ grid-template-columns:1fr 1fr; }
+  .routine-row-top{ grid-template-columns:1fr 1fr; }
+  .routine-row-top .rt-del{ grid-column:1 / -1; }
+  .routine-item{ align-items:flex-start; }
+  .ri-actions{ width:100%; } .ri-actions .btn{ flex:1; }
+}
+@media (max-width:420px){ .routine-subjects{ grid-template-columns:1fr; } }
+#panel-routine textarea{ width:100%; min-height:90px; padding:10px 12px; }
+.routine-row-top{ align-items:start; }
+.routine-row-top .rt-del{ align-self:center; margin-top:22px; }
+@media (max-width:760px){ .routine-row-top .rt-del{ margin-top:0; } }

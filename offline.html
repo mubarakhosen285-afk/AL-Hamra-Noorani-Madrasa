@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f3d2e">
+<meta name="robots" content="noindex,nofollow">
+<title>ইন্টারনেট নেই — অ্যাডমিন</title>
+<style>
+  :root{--deep:#0f3d2e;--green:#1b5e42;--gold:#c9a227;--cream:#fbf7ee;--muted:#657067}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+    background:linear-gradient(135deg,#0f3d2e,#1b5e42);font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif}
+  .box{width:min(420px,100%);background:#fff;border-top:5px solid var(--gold);border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 18px 55px rgba(0,0,0,.28)}
+  img{width:86px;height:86px;border-radius:50%;object-fit:cover;border:3px solid var(--gold)}
+  h1{margin:14px 0 8px;color:var(--deep);font-size:1.35rem}
+  p{margin:0 0 8px;color:var(--muted);line-height:1.7}
+  button{width:100%;margin-top:16px;font:inherit;font-weight:600;border:0;border-radius:10px;padding:13px;background:var(--deep);color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+  <main class="box">
+    <img src="madrasa.jpeg" alt="মাদ্রাসার লোগো">
+    <h1>📡 ইন্টারনেট সংযোগ নেই</h1>
+    <p>অ্যাডমিন প্যানেল ব্যবহার করতে ইন্টারনেট প্রয়োজন।</p>
+    <p>নিরাপত্তার কারণে শিক্ষার্থীর তথ্য ও হিসাব ফোনে জমা রাখা হয় না।</p>
+    <button type="button" onclick="location.reload()">🔄 আবার চেষ্টা করুন</button>
+  </main>
+  <script>window.addEventListener('online', function () { location.reload(); });</script>
+</body>
+</html>
