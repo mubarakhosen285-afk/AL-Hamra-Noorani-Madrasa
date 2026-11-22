@@ -179,3 +179,20 @@ footer span{
 .routine-row-top{ align-items:start; }
 .routine-row-top .rt-del{ align-self:center; margin-top:22px; }
 @media (max-width:760px){ .routine-row-top .rt-del{ margin-top:0; } }
+
+/* =====================================================================
+   সাইট কনটেন্ট ম্যানেজার (নতুন) — Admin
+   ===================================================================== */
+.site-list{ display:grid; gap:12px; margin-bottom:12px; }
+.site-row{ border:1px solid #e1dbc8; border-left:5px solid var(--green); border-radius:var(--hd-radius); background:#fcfbf7; padding:14px; display:grid; gap:10px; }
+.site-row-fields{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
+.site-row-fields .wide{ grid-column:1 / -1; }
+.site-row textarea{ width:100%; padding:10px 12px; }
+.site-row-actions{ display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap; }
+.site-row-actions .btn{ min-height:34px; padding:6px 12px; }
+@media (max-width:600px){ .site-row-actions{ justify-content:space-between; } }
+#panel-sitecontent textarea{ width:100%; padding:10px 12px; }
+
+/* রুটিন: সময় এখন আলাদা একটি ঘর — প্রতিটি দিনের সারিতে শুধু তারিখ ও মুছুন বাটন */
+.routine-row-top{ grid-template-columns:1fr auto !important; }
+@media (max-width:760px){ .routine-row-top{ grid-template-columns:1fr !important; } .routine-row-top .rt-del{ grid-column:auto; justify-self:start; } }

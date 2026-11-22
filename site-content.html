@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0f3d2e">
+<link rel="icon" href="madrasa.jpeg">
+<title>সাইট কনটেন্ট সম্পাদনা — আল হামরা অ্যাডমিন</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--deep:#0f3d2e;--green:#1b6848;--gold:#c9a227;--soft:#f4e9c8;--bg:#f3f1e8;--line:#e5dfca;--ink:#1f2b24;--mut:#5f6b62;--red:#a12626}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Hind Siliguri',system-ui,sans-serif;line-height:1.6}
+.top{background:linear-gradient(135deg,var(--deep),var(--green));color:#fff;padding:12px 14px;position:sticky;top:0;z-index:50;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.top img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+.top h1{margin:0;font:700 1.05rem 'Noto Serif Bengali',serif;line-height:1.3}
+.top p{margin:0;font-size:.78rem;color:#e7e9dc}
+.back{margin-left:auto;text-decoration:none;color:var(--deep);background:var(--gold);padding:8px 14px;border-radius:10px;font-weight:700;font-size:.85rem;white-space:nowrap}
+main{max-width:900px;margin:0 auto;padding:14px 12px 60px}
+.tip{background:#fffdf3;border:1px solid #e8d9a0;border-radius:14px;padding:12px 14px;font-size:.88rem;color:#5b4e14;margin-bottom:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;margin-bottom:16px;box-shadow:0 6px 20px rgba(15,61,46,.06);overflow:hidden}
+.sec-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px;background:linear-gradient(135deg,#f6faf6,#fff);border-bottom:1px solid var(--line)}
+.sec-head h2{margin:0;font:700 1.12rem 'Noto Serif Bengali',serif;color:var(--deep);flex:1 1 180px}
+.pill{padding:3px 12px;border-radius:999px;font-size:.76rem;font-weight:800;border:1px solid}
+.pill.on{background:#e1f4e8;color:#14573a;border-color:#b6dfc6}
+.pill.off{background:#f1efe6;color:#6b6757;border-color:#ddd8c4}
+.sec-body{padding:14px 16px}
+.sec-foot{padding:12px 16px;border-top:1px solid var(--line);background:#fcfbf7;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+label{display:block;font-weight:600;font-size:.86rem;color:var(--deep);margin-bottom:4px}
+input[type=text],textarea,select{width:100%;padding:10px 12px;border:1px solid #d6d1bd;border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+textarea{resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:12px}
+.field{margin-bottom:12px}
+.grid .field{margin-bottom:0}
+.btn{font:inherit;font-weight:700;font-size:.86rem;border:1px solid transparent;border-radius:10px;padding:9px 14px;cursor:pointer;min-height:38px;touch-action:manipulation}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn-primary{background:var(--deep);color:#fff}
+.btn-gold{background:var(--gold);color:var(--deep)}
+.btn-ghost{background:#fff;color:var(--deep);border-color:#cfd8cf}
+.btn-danger{background:#fff5f5;color:var(--red);border-color:#e7caca}
+.btn-sm{padding:6px 11px;font-size:.8rem;min-height:34px}
+.msg{font-size:.86rem;font-weight:600}
+.msg.good{color:#14573a}.msg.bad{color:var(--red)}
+.sub-h{margin:14px 0 6px;font-size:.95rem;font-weight:700;color:var(--deep)}
+.hint{font-size:.8rem;color:var(--mut);margin:0 0 8px}
+/* তালিকার আইটেম */
+.item{border:1px solid var(--line);border-radius:14px;padding:11px 12px;margin-bottom:9px;background:#fff}
+.item.hid{background:#faf9f4;opacity:.78;border-style:dashed}
+.item-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.item-main{flex:1 1 200px;min-width:0}
+.item-main b{display:block;color:var(--deep);overflow-wrap:anywhere}
+.item-main small{display:block;color:var(--mut);overflow-wrap:anywhere}
+.item-acts{display:flex;gap:6px;flex-wrap:wrap}
+.item-form{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.item-form .field{margin-bottom:10px}
+.empty{padding:16px;text-align:center;color:var(--mut);background:#faf9f4;border-radius:12px;border:1px dashed #d6d1bd;margin-bottom:10px}
+/* ফি টেবিল / পরিসংখ্যান সারি */
+.rows{display:grid;gap:8px;margin-bottom:8px}
+.rowx{display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:8px;align-items:end;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fbfaf5}
+.rowx.two{grid-template-columns:1fr 1.4fr auto}
+.chk{display:flex;gap:10px;align-items:center;padding:10px 12px;background:#f6faf6;border:1px solid #dde8de;border-radius:12px;margin-bottom:12px}
+.chk input{width:20px;height:20px}
+.chk label{margin:0}
+#gate{max-width:520px;margin:60px auto;padding:24px;background:#fff;border:1px solid var(--line);border-radius:18px;text-align:center}
+#gate a{display:inline-block;margin-top:12px;text-decoration:none}
+@media(max-width:640px){
+  .rowx,.rowx.two{grid-template-columns:1fr 1fr}
+  .rowx .full{grid-column:1/-1}
+  input[type=text],textarea,select{font-size:16px}
+  .back{padding:7px 10px}
+}
+</style>
+</head>
+<body>
+<div class="top"><div class="top-in">
+  <img src="madrasa.jpeg" alt="logo">
+  <div><h1>🌐 সাইট কনটেন্ট সম্পাদনা</h1><p>পাবলিক ওয়েবসাইটের তথ্য এখান থেকে বদলান</p></div>
+  <a class="back" href="index.html">← অ্যাডমিন প্যানেল</a>
+</div></div>
+
+<div id="gate"><div id="gateText">যাচাই হচ্ছে...</div></div>
+
+<main id="app" hidden>
+  <div class="tip">
+    ✅ প্রতিটি সেকশনে লিখে <b>"সংরক্ষণ"</b> চাপুন — পাবলিক পেজে (রিফ্রেশ করলে) দেখা যাবে।<br>
+    👁 <b>"পাবলিক থেকে সরান"</b> দিলে সেকশন বা আইটেম পাবলিকে দেখাবে না, কিন্তু মুছে যাবে না — পরে আবার <b>"পাবলিক করুন"</b> চাপলেই ফিরে আসবে।
+  </div>
+  <div id="sections"></div>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+import { getDatabase, ref, get, set, remove } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyCIoSIq3Ci9wODl_OMk5XDMrAK7mVLQvzs",
+  authDomain: "madrasa-admission-system.firebaseapp.com",
+  databaseURL: "https://madrasa-admission-system-default-rtdb.firebaseio.com",
+  projectId: "madrasa-admission-system",
+  storageBucket: "madrasa-admission-system.firebasestorage.app",
+  messagingSenderId: "722552487890",
+  appId: "1:722552487890:web:7a8f6d8deb5da44c11520b"
+});
+const db = getDatabase(app);
+const auth = getAuth(app);
+const PATH = "publicSite";
+
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+/* ---------- লিংক/পাথ যাচাই ---------- */
+function safeUrl(u) {
+  u = String(u || "").trim();
+  if (!u) return "";
+  if (/^https:\/\//i.test(u)) return u;
+  if (/^[\w\-./%ঀ-৿ ]+$/.test(u) && u.indexOf("..") === -1 && u.charAt(0) !== "/") return u;
+  throw new Error('"' + u + '" — লিংক https:// দিয়ে শুরু হতে হবে, অথবা ছবির ফাইলের নাম/পাথ (যেমন gallery/1.jpg) দিন।');
+}
+
+/* ---------- ডেটা ---------- */
+const S = { about: {}, admission: {}, teachers: [], gallery: [], faq: [], off: {} };
+const DEFAULT_CLASSES = ["শিশু শ্রেণি", "প্রথম শ্রেণি", "দ্বিতীয় শ্রেণি", "তৃতীয় শ্রেণি"];
+
+const LISTS = {
+  teachers: {
+    title: "👨‍🏫 শিক্ষক পরিষদ", max: 60, req: "name", addLabel: "+ শিক্ষক যোগ করুন",
+    hint: "ছবি না দিলে নামের প্রথম অক্ষর দেখাবে। ছবি GitHub-এর teachers ফোল্ডারে আপলোড করে ফাইলের নাম (teachers/rahim.jpg) লিখুন, অথবা https:// লিংক দিন।",
+    fields: [["name", "নাম", "text", 80, ""], ["designation", "পদবি", "text", 80, "যেমন: প্রধান শিক্ষক"], ["qualification", "যোগ্যতা (ঐচ্ছিক)", "text", 120, ""], ["photo", "ছবির লিংক বা পাথ (ঐচ্ছিক)", "text", 300, "teachers/rahim.jpg"]],
+    line1: (x) => x.name, line2: (x) => [x.designation, x.qualification].filter(Boolean).join(" • ")
+  },
+  gallery: {
+    title: "🖼️ ছবি গ্যালারি", max: 80, req: "url", addLabel: "+ ছবি যোগ করুন",
+    hint: "ছবি GitHub-এর gallery ফোল্ডারে আপলোড করে ফাইলের নাম (gallery/1.jpg) লিখুন, অথবা https:// লিংক দিন। ছোট সাইজের (৩০০–৮০০ KB) ছবি দিলে সাইট দ্রুত থাকবে।",
+    fields: [["url", "ছবির লিংক বা পাথ", "text", 300, "gallery/1.jpg"], ["caption", "ক্যাপশন (ঐচ্ছিক)", "text", 120, ""]],
+    line1: (x) => x.caption || x.url, line2: (x) => x.caption ? x.url : ""
+  },
+  faq: {
+    title: "❓ সাধারণ জিজ্ঞাসা (FAQ)", max: 40, req: "q", addLabel: "+ প্রশ্ন যোগ করুন",
+    hint: "অভিভাবকরা যা বারবার জানতে চান, তার প্রশ্ন ও উত্তর লিখুন।",
+    fields: [["q", "প্রশ্ন", "text", 200, ""], ["a", "উত্তর", "textarea", 800, ""]],
+    line1: (x) => x.q, line2: (x) => x.a
+  }
+};
+
+/* ---------- Firebase লেখা ---------- */
+async function put(sub, value) {
+  const empty = value == null || (Array.isArray(value) && !value.length);
+  if (empty) await remove(ref(db, PATH + "/" + sub)); else await set(ref(db, PATH + "/" + sub), value);
+  await set(ref(db, PATH + "/updatedAt"), Date.now());
+}
+
+/* ---------- সেকশনের কাঠামো ---------- */
+function section(key, title) {
+  const card = el("section", "card"); card.id = "sec-" + key;
+  const head = el("div", "sec-head");
+  head.appendChild(el("h2", null, title));
+  const pill = el("span", "pill"); pill.id = "pill-" + key;
+  const tog = el("button", "btn btn-sm"); tog.type = "button"; tog.id = "tog-" + key;
+  head.appendChild(pill); head.appendChild(tog);
+  const body = el("div", "sec-body"); body.id = "body-" + key;
+  card.appendChild(head); card.appendChild(body);
+  tog.addEventListener("click", async () => {
+    tog.disabled = true;
+    try {
+      if (S.off[key]) { await remove(ref(db, PATH + "/sectionOff/" + key)); delete S.off[key]; }
+      else { await set(ref(db, PATH + "/sectionOff/" + key), true); S.off[key] = true; }
+      refreshHead(key);
+    } catch (e) { alert(e.message || "করা যায়নি।"); }
+    tog.disabled = false;
+  });
+  $("sections").appendChild(card);
+  return body;
+}
+function hasContent(key) {
+  if (key === "about") { const a = S.about; return !!(a.text || a.address || a.mapUrl || (a.stats && a.stats.length)); }
+  if (key === "admission") { const a = S.admission; return !!(a.open || a.age || a.lastDate || a.fee || a.docs || a.note || (a.classFees && a.classFees.length)); }
+  return S[key].some((x) => !x.hidden);
+}
+function refreshHead(key) {
+  const pill = $("pill-" + key), tog = $("tog-" + key);
+  const off = !!S.off[key], has = hasContent(key);
+  if (off) { pill.className = "pill off"; pill.textContent = "⚪ পাবলিকে নেই (লুকানো)"; }
+  else if (!has) { pill.className = "pill off"; pill.textContent = "⚪ ফাঁকা — কিছু দেখাবে না"; }
+  else { pill.className = "pill on"; pill.textContent = "🟢 পাবলিকে চালু"; }
+  tog.textContent = off ? "পাবলিক করুন" : "পাবলিক থেকে সরান";
+  tog.className = "btn btn-sm " + (off ? "btn-gold" : "btn-ghost");
+}
+function footer(onSave, label) {
+  const f = el("div", "sec-foot");
+  const b = el("button", "btn btn-primary", label || "💾 সংরক্ষণ করুন"); b.type = "button";
+  const m = el("span", "msg");
+  f.appendChild(b); f.appendChild(m);
+  const say = (t, ok) => { m.textContent = t || ""; m.className = "msg" + (t ? (ok === false ? " bad" : " good") : ""); };
+  b.addEventListener("click", async () => {
+    b.disabled = true; say("সংরক্ষণ হচ্ছে...");
+    try { await onSave(); say("✔ সংরক্ষিত হয়েছে। পাবলিক পেজে রিফ্রেশ করলে দেখা যাবে।", true); }
+    catch (e) { say(e.message || "সংরক্ষণ করা যায়নি।", false); }
+    b.disabled = false;
+  });
+  return f;
+}
+function field(label, input, cls) {
+  const w = el("div", "field" + (cls ? " " + cls : ""));
+  const l = el("label", null, label); w.appendChild(l); w.appendChild(input); return w;
+}
+function txt(max, ph, val) { const i = document.createElement("input"); i.type = "text"; i.maxLength = max; if (ph) i.placeholder = ph; i.value = val || ""; return i; }
+function area(max, rows, ph, val) { const i = document.createElement("textarea"); i.maxLength = max; i.rows = rows; if (ph) i.placeholder = ph; i.value = val || ""; return i; }
+
+/* ================= পরিচিতি ================= */
+function buildAbout() {
+  const body = section("about", "🏫 মাদ্রাসার পরিচিতি");
+  const a = S.about;
+  const text = area(3000, 6, "মাদ্রাসার ইতিহাস, লক্ষ্য-উদ্দেশ্য, শিক্ষা কার্যক্রম... (নতুন অনুচ্ছেদের জন্য Enter চাপুন)", a.text);
+  const addr = txt(200, "গ্রাম, ইউনিয়ন, উপজেলা, জেলা", a.address);
+  const map = txt(500, "https://maps.app.goo.gl/...", a.mapUrl);
+  body.appendChild(field("মাদ্রাসার পরিচিতি", text));
+  const g = el("div", "grid"); g.appendChild(field("পূর্ণ ঠিকানা", addr)); g.appendChild(field("Google Maps লিংক (ঐচ্ছিক)", map)); body.appendChild(g);
+  body.appendChild(el("div", "sub-h", "পরিসংখ্যান (সর্বোচ্চ ৪টি, ঐচ্ছিক)"));
+  body.appendChild(el("p", "hint", "যেমন: প্রতিষ্ঠাকাল — ২০১৫, শিক্ষার্থী — ১২০+"));
+  const rows = el("div", "rows"); body.appendChild(rows);
+  const addStat = (s) => {
+    const r = el("div", "rowx two");
+    const v = txt(20, "যেমন: ১২০+", s && s.value), l = txt(40, "যেমন: শিক্ষার্থী", s && s.label);
+    const d = el("button", "btn btn-danger btn-sm", "✕"); d.type = "button"; d.title = "মুছুন";
+    d.addEventListener("click", () => { r.remove(); addB.disabled = rows.children.length >= 4; });
+    r.appendChild(field("সংখ্যা/মান", v)); r.appendChild(field("বিবরণ", l)); r.appendChild(d);
+    r._v = v; r._l = l; rows.appendChild(r); addB.disabled = rows.children.length >= 4;
+  };
+  const addB = el("button", "btn btn-ghost btn-sm", "+ পরিসংখ্যান যোগ করুন"); addB.type = "button";
+  addB.addEventListener("click", () => addStat());
+  body.appendChild(addB);
+  (a.stats || []).forEach(addStat);
+  body.parentNode.appendChild(footer(async () => {
+    const m = safeUrl(map.value);
+    if (m && !/^https:\/\//i.test(m)) throw new Error("ম্যাপ লিংক https:// দিয়ে শুরু হতে হবে।");
+    const stats = [];
+    rows.querySelectorAll(".rowx").forEach((r) => { const v = r._v.value.trim(), l = r._l.value.trim(); if (v) stats.push({ value: v, label: l }); });
+    const obj = { text: text.value.trim(), address: addr.value.trim(), mapUrl: m };
+    if (stats.length) obj.stats = stats;
+    await put("about", (obj.text || obj.address || obj.mapUrl || stats.length) ? obj : null);
+    S.about = obj; refreshHead("about");
+  }));
+  refreshHead("about");
+}
+
+/* ================= ভর্তি তথ্য (শ্রেণিভিত্তিক ফি) ================= */
+function buildAdmission() {
+  const body = section("admission", "📝 ভর্তি তথ্য");
+  const a = S.admission;
+  const open = document.createElement("input"); open.type = "checkbox"; open.id = "admOpen"; open.checked = !!a.open;
+  const chk = el("div", "chk"); chk.appendChild(open);
+  const cl = el("label", null, 'ভর্তি চলছে (পাবলিক পেজে সবুজ "ভর্তি চলছে" ব্যাজ দেখাবে)'); cl.htmlFor = "admOpen"; chk.appendChild(cl);
+  body.appendChild(chk);
+
+  body.appendChild(el("div", "sub-h", "💰 শ্রেণিভিত্তিক ভর্তি ফি ও মাসিক বেতন"));
+  body.appendChild(el("p", "hint", "প্রতিটি শ্রেণির ফি আলাদা লিখুন। যে শ্রেণির ঘর ফাঁকা থাকবে সেটি পাবলিকে দেখাবে না। ফি লেখার নিয়ম: যেমন ৫০০ টাকা"));
+  const dl = document.createElement("datalist"); dl.id = "clsList"; DEFAULT_CLASSES.forEach((c) => { const o = document.createElement("option"); o.value = c; dl.appendChild(o); }); body.appendChild(dl);
+  const rows = el("div", "rows"); body.appendChild(rows);
+  const addFee = (f) => {
+    const r = el("div", "rowx");
+    const c = txt(60, "শ্রেণি", f && f.cls); c.setAttribute("list", "clsList");
+    const af = txt(60, "যেমন: ৫০০ টাকা", f && f.admFee), mf = txt(60, "যেমন: ২০০ টাকা", f && f.monthlyFee);
+    const d = el("button", "btn btn-danger btn-sm", "✕"); d.type = "button"; d.title = "শ্রেণি মুছুন";
+    d.addEventListener("click", () => r.remove());
+    r.appendChild(field("শ্রেণি", c)); r.appendChild(field("ভর্তি ফি", af)); r.appendChild(field("মাসিক বেতন", mf)); r.appendChild(d);
+    r._c = c; r._a = af; r._m = mf; rows.appendChild(r);
+  };
+  const addB = el("button", "btn btn-ghost btn-sm", "+ আরেকটি শ্রেণি যোগ করুন"); addB.type = "button";
+  addB.addEventListener("click", () => addFee());
+  body.appendChild(addB);
+  const existing = (a.classFees && a.classFees.length) ? a.classFees : DEFAULT_CLASSES.map((c) => ({ cls: c }));
+  existing.forEach(addFee);
+
+  const g = el("div", "grid"); g.style.marginTop = "14px";
+  const age = txt(120, "যেমন: ৪ থেকে ১০ বছর", a.age), last = txt(120, "যেমন: ৩০ ডিসেম্বর ২০২৬", a.lastDate), fee = txt(160, "যেমন: বই ও পোশাক খরচ আলাদা", a.fee);
+  g.appendChild(field("বয়স", age)); g.appendChild(field("ভর্তির শেষ তারিখ / সময়কাল", last)); g.appendChild(field("অন্যান্য ফি (ঐচ্ছিক)", fee));
+  body.appendChild(g);
+  const docs = area(600, 3, "প্রতিটি লাইনে একটি করে লিখুন (Enter চাপুন)", a.docs), note = area(400, 2, "", a.note);
+  body.appendChild(field("প্রয়োজনীয় কাগজপত্র", docs)); body.appendChild(field("বিশেষ নোট", note));
+
+  body.parentNode.appendChild(footer(async () => {
+    const fees = [];
+    rows.querySelectorAll(".rowx").forEach((r) => {
+      const c = r._c.value.trim(), af = r._a.value.trim(), mf = r._m.value.trim();
+      if (c && (af || mf)) fees.push({ cls: c, admFee: af, monthlyFee: mf });
+    });
+    const obj = { open: open.checked, age: age.value.trim(), lastDate: last.value.trim(), fee: fee.value.trim(), docs: docs.value.trim(), note: note.value.trim(), classes: fees.map((f) => f.cls).join(", ") };
+    if (fees.length) obj.classFees = fees;
+    await put("admission", obj);
+    S.admission = obj; refreshHead("admission");
+  }));
+  refreshHead("admission");
+}
+
+/* ================= তালিকা (শিক্ষক / গ্যালারি / FAQ) ================= */
+function buildList(key) {
+  const cfg = LISTS[key];
+  const body = section(key, cfg.title);
+  body.appendChild(el("p", "hint", cfg.hint));
+  const box = el("div"); body.appendChild(box);
+  const addB = el("button", "btn btn-gold btn-sm", cfg.addLabel); addB.type = "button"; body.appendChild(addB);
+  const msg = el("span", "msg"); msg.style.marginLeft = "10px"; body.appendChild(msg);
+  const say = (t, ok) => { msg.textContent = t || ""; msg.className = "msg" + (t ? (ok === false ? " bad" : " good") : ""); };
+
+  async function persist(okText) {
+    await put(key, S[key].length ? S[key] : null);
+    refreshHead(key); render(); say(okText || "✔ সংরক্ষিত হয়েছে।", true);
+  }
+  function formFor(item, onOk, onCancel) {
+    const f = el("div", "item-form"); const inputs = {};
+    cfg.fields.forEach((fd) => {
+      const i = fd[2] === "textarea" ? area(fd[3], 3, fd[4], item[fd[0]]) : txt(fd[3], fd[4], item[fd[0]]);
+      inputs[fd[0]] = i; f.appendChild(field(fd[1], i));
+    });
+    const bar = el("div", "item-acts");
+    const ok = el("button", "btn btn-primary btn-sm", "✔ সংরক্ষণ"); ok.type = "button";
+    const no = el("button", "btn btn-ghost btn-sm", "বাতিল"); no.type = "button";
+    bar.appendChild(ok); bar.appendChild(no); f.appendChild(bar);
+    no.addEventListener("click", onCancel);
+    ok.addEventListener("click", async () => {
+      try {
+        const o = {};
+        cfg.fields.forEach((fd) => { o[fd[0]] = inputs[fd[0]].value.trim(); });
+        if (!o[cfg.req]) throw new Error("প্রয়োজনীয় ঘরটি ফাঁকা রাখা যাবে না।");
+        if (o.photo !== undefined) o.photo = safeUrl(o.photo);
+        if (o.url !== undefined) o.url = safeUrl(o.url);
+        if (item.hidden) o.hidden = true;
+        ok.disabled = true; await onOk(o);
+      } catch (e) { say(e.message || "সংরক্ষণ করা যায়নি।", false); ok.disabled = false; }
+    });
+    return f;
+  }
+  function render() {
+    box.textContent = "";
+    if (!S[key].length) box.appendChild(el("div", "empty", "এখনো কিছু যোগ করা হয়নি।"));
+    S[key].forEach((item, idx) => {
+      const row = el("div", "item" + (item.hidden ? " hid" : ""));
+      const top = el("div", "item-top");
+      const main = el("div", "item-main");
+      main.appendChild(el("b", null, (idx + 1) + ". " + (cfg.line1(item) || "")));
+      const l2 = cfg.line2(item); if (l2) main.appendChild(el("small", null, l2.length > 140 ? l2.slice(0, 140) + "…" : l2));
+      if (item.hidden) main.appendChild(el("small", null, "⚪ পাবলিকে নেই"));
+      const acts = el("div", "item-acts");
+      const mk = (t, cls, fn, title) => { const b = el("button", "btn btn-sm " + cls, t); b.type = "button"; if (title) b.title = title; b.addEventListener("click", fn); return b; };
+      acts.appendChild(mk(item.hidden ? "পাবলিক করুন" : "সরান", item.hidden ? "btn-gold" : "btn-ghost", async () => {
+        if (item.hidden) delete item.hidden; else item.hidden = true;
+        try { await persist(item.hidden ? "পাবলিক থেকে সরানো হয়েছে (মোছা হয়নি)।" : "✔ পাবলিকে দেখানো হচ্ছে।"); } catch (e) { say(e.message, false); }
+      }, "পাবলিকে দেখানো/লুকানো"));
+      acts.appendChild(mk("✏️ সম্পাদনা", "btn-ghost", () => {
+        if (row.querySelector(".item-form")) return;
+        const f = formFor(item, async (o) => { S[key][idx] = o; await persist("✔ পরিবর্তন সংরক্ষিত হয়েছে।"); }, () => f.remove());
+        row.appendChild(f);
+      }));
+      acts.appendChild(mk("▲", "btn-ghost", async () => { if (idx > 0) { const t = S[key][idx - 1]; S[key][idx - 1] = item; S[key][idx] = t; try { await persist("✔ ক্রম বদলানো হয়েছে।"); } catch (e) { say(e.message, false); } } }, "উপরে"));
+      acts.appendChild(mk("▼", "btn-ghost", async () => { if (idx < S[key].length - 1) { const t = S[key][idx + 1]; S[key][idx + 1] = item; S[key][idx] = t; try { await persist("✔ ক্রম বদলানো হয়েছে।"); } catch (e) { say(e.message, false); } } }, "নিচে"));
+      acts.appendChild(mk("🗑 মুছুন", "btn-danger", async () => {
+        if (!confirm("এটি মুছে ফেলবেন?")) return;
+        S[key].splice(idx, 1);
+        try { await persist("মুছে ফেলা হয়েছে।"); } catch (e) { say(e.message, false); }
+      }));
+      top.appendChild(main); top.appendChild(acts); row.appendChild(top); box.appendChild(row);
+    });
+    addB.disabled = S[key].length >= cfg.max;
+  }
+  addB.addEventListener("click", () => {
+    if (box.querySelector(".item.newitem")) return;
+    const row = el("div", "item newitem");
+    const f = formFor({}, async (o) => { S[key].push(o); await persist("✔ যোগ হয়েছে।"); }, () => row.remove());
+    row.appendChild(f); box.insertBefore(row, box.firstChild);
+    const first = row.querySelector("input,textarea"); if (first) first.focus();
+  });
+  render(); refreshHead(key);
+}
+
+/* ---------- লোড ---------- */
+async function loadAll() {
+  const snap = await get(ref(db, PATH));
+  const d = snap.exists() ? snap.val() : {};
+  S.about = d.about || {};
+  if (S.about.stats && !Array.isArray(S.about.stats)) S.about.stats = Object.values(S.about.stats);
+  S.admission = d.admission || {};
+  if (S.admission.classFees && !Array.isArray(S.admission.classFees)) S.admission.classFees = Object.values(S.admission.classFees);
+  ["teachers", "gallery", "faq"].forEach((k) => { const v = d[k]; S[k] = Array.isArray(v) ? v.filter(Boolean) : (v ? Object.values(v) : []); });
+  S.off = d.sectionOff || {};
+  $("sections").textContent = "";
+  buildAbout(); buildAdmission(); buildList("teachers"); buildList("gallery"); buildList("faq");
+}
+
+let started = false;
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    $("app").hidden = true; $("gate").hidden = false;
+    $("gateText").innerHTML = "<h2>🔒 আগে লগইন করুন</h2><p>এই পেজ শুধু অ্যাডমিনের জন্য। অ্যাডমিন প্যানেলে লগইন করে আবার \"সাইট কনটেন্ট সম্পাদনা\" চাপুন।</p>";
+    if (!$("gateLink")) { const a = el("a", "btn btn-primary", "← অ্যাডমিন প্যানেলে যান"); a.id = "gateLink"; a.href = "index.html"; $("gate").appendChild(a); }
+    return;
+  }
+  $("gate").hidden = true; $("app").hidden = false;
+  if (started) return; started = true;
+  try { await loadAll(); }
+  catch (e) { started = false; $("sections").innerHTML = ""; const m = el("div", "empty", "লোড করা যায়নি: " + (e.message || "Firebase সংযোগ/Rules পরীক্ষা করুন।")); $("sections").appendChild(m); }
+});
+</script>
+</body>
+</html>

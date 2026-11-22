@@ -10,7 +10,7 @@
      "alhamra-runtime-") থেকে সম্পূর্ণ আলাদা, তাই একে অপরের ক্যাশ মোছে না।
    - Scope শুধু এই ফোল্ডার, পাবলিক সাইটের Service Worker-এর সাথে সংঘর্ষ নেই।
    ===================================================================== */
-const VERSION = 'v1.2.0';
+const VERSION = 'v1.4.0';
 const STATIC_CACHE = 'alhamra-admin-static-' + VERSION;
 const RUNTIME_CACHE = 'alhamra-admin-runtime-' + VERSION;
 

@@ -2716,6 +2716,27 @@ table.due-table td.name-cell {
     <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
     <script src="pwa-admin.js" defer></script>
     <script src="exam-routine-admin.js" defer></script>
+    <style id="modal-center-fix">
+/* ভিজিটর/মতামত পপআপ সবসময় পর্দার মাঝখানে */
+.visitor-modal, .feedback-modal { align-items:center !important; justify-content:center !important; }
+.visitor-modal-box, .feedback-modal-box { margin:auto !important; border-radius:18px !important; max-height:88vh; }
+@media (max-width:600px){
+  .visitor-modal, .feedback-modal { padding:10px !important; align-items:center !important; }
+  .visitor-modal-box, .feedback-modal-box { border-radius:16px !important; max-height:86vh; }
+}
+</style>
+<style id="notice-manager-easy">
+.nm-item{ flex-wrap:wrap; align-items:flex-start; gap:10px; }
+.nm-item .saved-notice-content{ flex:1 1 220px; min-width:0; }
+.nm-actions{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+.nm-badge{ display:inline-block; margin-left:6px; padding:2px 10px; border-radius:999px; font-size:.72rem; font-weight:800; }
+.nm-badge.on{ background:#e1f4e8; color:#14573a; border:1px solid #b6dfc6; }
+.nm-badge.off{ background:#f1efe6; color:#6b6757; border:1px solid #ddd8c4; }
+.nm-item.nm-live{ border-left:4px solid #1b6848; }
+.nm-item.nm-draft{ border-left:4px solid #c9c3ad; }
+.nm-edit-area{ width:100%; margin-top:8px; font-family:'Hind Siliguri',sans-serif; }
+.nm-edit-bar{ display:flex; gap:6px; margin-top:6px; }
+</style>
 </head>
 
 <body class="auth-locked">
@@ -2749,6 +2770,7 @@ table.due-table td.name-cell {
                 <strong id="siteVisitCount" aria-live="polite">লোড হচ্ছে...</strong>
             </button>
             <div class="admin-quick-menu" id="adminQuickMenu" aria-label="অতিরিক্ত মেনু">
+                <button type="button" id="openSiteContentBtn">🌐 সাইট কনটেন্ট সম্পাদনা</button>
                 <button type="button" id="openVisitorRecordsBtn">👥 ভিজিটরদের তথ্য দেখুন</button>
                 <button type="button" id="openFeedbackRecordsBtn">💬 মতামতগুলো দেখুন</button>
             </div>
@@ -2792,8 +2814,6 @@ table.due-table td.name-cell {
             <button class="tab-btn" data-tab="sms">
                 নোটিশ ও তাগাদা SMS
             </button>
-
-            
 
             <button class="tab-btn tab-corner" data-tab="admission">
                 + ভর্তি ফরম
@@ -2866,7 +2886,7 @@ table.due-table td.name-cell {
                             <option>মডেল পরীক্ষা</option>
                         </select>
                     </div>
-                    <div class="field"><label for="routineDefaultTime">সাধারণ পরীক্ষার সময়</label><input id="routineDefaultTime" type="text" maxlength="60" value="সকাল ৯:০০" placeholder="যেমন: সকাল ৯:০০ – ১১:০০"></div>
+                    <div class="field"><label for="routineDefaultTime">⏰ পরীক্ষার সময় (পাবলিক পেজে শিরোনামের নিচে দেখাবে)</label><input id="routineDefaultTime" type="text" maxlength="80" placeholder="যেমন: সকাল ১০:০০ থেকে দুপুর ১২:৩০ পর্যন্ত"></div>
                 </div>
                 <div class="field" style="margin-top:12px"><label for="routineTitle">রুটিনের শিরোনাম (ঐচ্ছিক)</label><input id="routineTitle" type="text" maxlength="120" placeholder="ফাঁকা রাখলে স্বয়ংক্রিয়ভাবে তৈরি হবে"></div>
 
@@ -3398,46 +3418,6 @@ table.due-table td.name-cell {
 
         <section class="panel active" id="panel-fees">
 
-            <div class="visitor-modal" id="visitorModal" aria-hidden="true">
-                <div class="visitor-modal-backdrop" data-visitor-close></div>
-                <section class="visitor-modal-box" role="dialog" aria-modal="true" aria-labelledby="visitorModalTitle">
-                    <div class="visitor-modal-head">
-                        <div>
-                            <h3 id="visitorModalTitle">ওয়েবসাইট ভিজিটর তালিকা</h3>
-                            <p id="visitorModalSummary">ভিজিটরদের দেওয়া তথ্য এখানে দেখা যাবে।</p>
-                        </div>
-                        <button type="button" class="visitor-close-btn" data-visitor-close aria-label="বন্ধ করুন">×</button>
-                    </div>
-                    <div class="visitor-modal-tools">
-                        <input type="search" id="visitorSearchInput" placeholder="অভিভাবকের নাম / শিক্ষার্থী / শ্রেণি দিয়ে খুঁজুন...">
-                        <button type="button" class="btn btn-ghost btn-sm" id="visitorRefreshBtn">↻ রিফ্রেশ</button>
-                    </div>
-                    <div class="visitor-list" id="visitorList">
-                        <div class="visitor-empty">তথ্য লোড হচ্ছে...</div>
-                    </div>
-                </section>
-            </div>
-
-            <div class="feedback-modal" id="feedbackAdminModal" aria-hidden="true">
-                <div class="feedback-modal-backdrop" data-feedback-admin-close></div>
-                <section class="feedback-modal-box" role="dialog" aria-modal="true" aria-labelledby="feedbackAdminTitle">
-                    <div class="feedback-modal-head">
-                        <div>
-                            <h3 id="feedbackAdminTitle">অভিভাবকদের মতামত</h3>
-                            <p id="feedbackAdminSummary">জমা দেওয়া মতামত এখানে দেখা যাবে।</p>
-                        </div>
-                        <button type="button" class="visitor-close-btn" data-feedback-admin-close aria-label="বন্ধ করুন">×</button>
-                    </div>
-                    <div class="feedback-modal-tools">
-                        <input type="search" id="feedbackAdminSearch" placeholder="মতামত / অভিভাবক / শিক্ষার্থীর নাম দিয়ে খুঁজুন...">
-                        <button type="button" class="btn btn-ghost btn-sm" id="feedbackAdminRefresh">↻ রিফ্রেশ</button>
-                    </div>
-                    <div class="feedback-admin-list" id="feedbackAdminList">
-                        <div class="visitor-empty">মতামত লোড হচ্ছে...</div>
-                    </div>
-                </section>
-            </div>
-
             <div class="card">
 
                 <h2>
@@ -3493,6 +3473,49 @@ table.due-table td.name-cell {
         </section>
 
     </main>
+
+    <!-- ভিজিটর ও মতামতের পপআপ: কোনো ট্যাবের ভেতরে নয়, তাই যেকোনো ট্যাব থেকেই খোলে -->
+            <div class="visitor-modal" id="visitorModal" aria-hidden="true">
+                <div class="visitor-modal-backdrop" data-visitor-close></div>
+                <section class="visitor-modal-box" role="dialog" aria-modal="true" aria-labelledby="visitorModalTitle">
+                    <div class="visitor-modal-head">
+                        <div>
+                            <h3 id="visitorModalTitle">ওয়েবসাইট ভিজিটর তালিকা</h3>
+                            <p id="visitorModalSummary">ভিজিটরদের দেওয়া তথ্য এখানে দেখা যাবে।</p>
+                        </div>
+                        <button type="button" class="visitor-close-btn" data-visitor-close aria-label="বন্ধ করুন">×</button>
+                    </div>
+                    <div class="visitor-modal-tools">
+                        <input type="search" id="visitorSearchInput" placeholder="অভিভাবকের নাম / শিক্ষার্থী / শ্রেণি দিয়ে খুঁজুন...">
+                        <button type="button" class="btn btn-ghost btn-sm" id="visitorRefreshBtn">↻ রিফ্রেশ</button>
+                    </div>
+                    <div class="visitor-list" id="visitorList">
+                        <div class="visitor-empty">তথ্য লোড হচ্ছে...</div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="feedback-modal" id="feedbackAdminModal" aria-hidden="true">
+                <div class="feedback-modal-backdrop" data-feedback-admin-close></div>
+                <section class="feedback-modal-box" role="dialog" aria-modal="true" aria-labelledby="feedbackAdminTitle">
+                    <div class="feedback-modal-head">
+                        <div>
+                            <h3 id="feedbackAdminTitle">অভিভাবকদের মতামত</h3>
+                            <p id="feedbackAdminSummary">জমা দেওয়া মতামত এখানে দেখা যাবে।</p>
+                        </div>
+                        <button type="button" class="visitor-close-btn" data-feedback-admin-close aria-label="বন্ধ করুন">×</button>
+                    </div>
+                    <div class="feedback-modal-tools">
+                        <input type="search" id="feedbackAdminSearch" placeholder="মতামত / অভিভাবক / শিক্ষার্থীর নাম দিয়ে খুঁজুন...">
+                        <button type="button" class="btn btn-ghost btn-sm" id="feedbackAdminRefresh">↻ রিফ্রেশ</button>
+                    </div>
+                    <div class="feedback-admin-list" id="feedbackAdminList">
+                        <div class="visitor-empty">মতামত লোড হচ্ছে...</div>
+                    </div>
+                </section>
+            </div>
+
+
 
     <!-- ================= PAYMENT MODAL ================= -->
 
@@ -5990,11 +6013,34 @@ vist: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
                 noticeManagerRef(db, type + '/' + id),
                 {
                     text: cleanText,
-                    createdAt: Date.now()
+                    createdAt: Date.now(),
+                    published: false
                 }
             );
 
             return id;
+        }
+
+        /* নোটিসের লেখা বদলানো অথবা পাবলিক/অপাবলিক করা (বাকি তথ্য অপরিবর্তিত) */
+        async function updatePublicNotice(type, item, changes) {
+            const db = await noticeManagerDb();
+            if (!db || !window.firebaseFns) {
+                throw new Error('Firebase সংযোগ পাওয়া যায়নি।');
+            }
+            const next = {
+                text: item.text,
+                createdAt: item.createdAt || Date.now(),
+                published: item.published !== false
+            };
+            Object.assign(next, changes || {});
+            next.text = String(next.text || '').trim();
+            if (!next.text) {
+                throw new Error('নোটিস ফাঁকা রাখা যাবে না।');
+            }
+            await window.firebaseFns.set(
+                noticeManagerRef(db, type + '/' + item.id),
+                next
+            );
         }
 
         async function deletePublicNotice(type, id) {
@@ -6012,112 +6058,99 @@ vist: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
 
         function renderPublicNoticeList(type, list) {
 
-            const boxId =
-                type === 'scrolling'
-                    ? 'scrollingNoticeList'
-                    : 'noticeBoxList';
-
+            const boxId = type === 'scrolling' ? 'scrollingNoticeList' : 'noticeBoxList';
             const box = document.getElementById(boxId);
+            if (!box) { return; }
 
-            if (!box) {
-                return;
-            }
-
-            const title =
-                type === 'scrolling'
-                    ? 'স্ক্রলিং নোটিসের তালিকা'
-                    : 'নোটিস বক্সের তালিকা';
+            const title = type === 'scrolling' ? 'স্ক্রলিং নোটিসের তালিকা' : 'নোটিস বক্সের তালিকা';
 
             if (!list.length) {
-
-                box.innerHTML = `
-                    <div class="notice-empty">
-                        ${title} — এখনো কোনো নোটিস যোগ করা হয়নি।
-                    </div>
-                `;
-
+                box.innerHTML = `<div class="notice-empty">${title} — এখনো কোনো নোটিস যোগ করা হয়নি।</div>`;
                 return;
             }
 
+            const byId = {};
+            list.forEach(item => { byId[item.id] = item; });
+
             box.innerHTML = `
-                <div style="font-size:.78rem;font-weight:700;color:var(--green-deep);margin-bottom:2px;">
-                    ${title}
-                </div>
-            ` + list.map(item => `
-                <div class="saved-notice">
-
+                <div style="font-size:.78rem;font-weight:700;color:var(--green-deep);margin-bottom:2px;">${title}</div>
+            ` + list.map(item => {
+                const live = item.published !== false;
+                return `
+                <div class="saved-notice nm-item ${live ? 'nm-live' : 'nm-draft'}" data-nid="${escapeHtml(item.id)}">
                     <div class="saved-notice-content">
-
-                        <span class="saved-notice-type">
-                            ${type === 'scrolling' ? 'স্ক্রলিং' : 'নোটিস বক্স'}
-                        </span>
-
-                        <div class="saved-notice-text">
-                            ${escapeHtml(item.text)}
-                        </div>
-
-                        <div class="saved-notice-date">
-                            ${noticeDateText(item.createdAt)}
-                        </div>
-
+                        <span class="saved-notice-type">${type === 'scrolling' ? 'স্ক্রলিং' : 'নোটিস বক্স'}</span>
+                        <span class="nm-badge ${live ? 'on' : 'off'}">${live ? '🟢 পাবলিকে চালু' : '⚪ পাবলিকে নেই'}</span>
+                        <div class="saved-notice-text">${escapeHtml(item.text)}</div>
+                        <div class="saved-notice-date">${noticeDateText(item.createdAt)}</div>
                     </div>
+                    <div class="nm-actions">
+                        <button type="button" class="btn ${live ? 'btn-ghost' : 'btn-gold'} btn-sm" data-na="toggle">${live ? 'পাবলিক থেকে সরান' : 'পাবলিক করুন'}</button>
+                        <button type="button" class="btn btn-ghost btn-sm" data-na="edit">সম্পাদনা</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-na="delete">ডিলেট</button>
+                    </div>
+                </div>`;
+            }).join('');
 
-                    <button
-                        type="button"
-                        class="btn btn-danger btn-sm"
-                        data-notice-delete="${escapeHtml(type)}"
-                        data-notice-id="${escapeHtml(item.id)}">
-                        ডিলেট
-                    </button>
+            box.querySelectorAll('.nm-item').forEach(row => {
 
-                </div>
-            `).join('');
+                const item = byId[row.dataset.nid];
+                if (!item) { return; }
 
-            box.querySelectorAll('[data-notice-delete]')
-                .forEach(btn => {
+                const run = async (btn, job, okText) => {
+                    btn.disabled = true;
+                    try {
+                        await job();
+                        await loadPublicNoticeManager();
+                        showPublicNoticeMsg(okText, true);
+                    } catch (err) {
+                        console.error(err);
+                        btn.disabled = false;
+                        showPublicNoticeMsg(err.message || 'কাজটি করা যায়নি।', false);
+                    }
+                };
 
-                    btn.addEventListener('click', async () => {
-
-                        const noticeType = btn.dataset.noticeDelete;
-                        const noticeId = btn.dataset.noticeId;
-
-                        if (!confirm('এই নোটিসটি ডিলেট করতে চান?')) {
-                            return;
-                        }
-
-                        btn.disabled = true;
-
-                        try {
-
-                            await deletePublicNotice(
-                                noticeType,
-                                noticeId
-                            );
-
-                            await loadPublicNoticeManager();
-
-                            showPublicNoticeMsg(
-                                'নোটিস সফলভাবে ডিলেট করা হয়েছে।',
-                                true
-                            );
-
-                        } catch (err) {
-
-                            console.error(err);
-
-                            btn.disabled = false;
-
-                            showPublicNoticeMsg(
-                                err.message || 'নোটিস ডিলেট করা যায়নি।',
-                                false
-                            );
-
-                        }
-
-                    });
-
+                row.querySelector('[data-na="toggle"]').addEventListener('click', function () {
+                    const goLive = item.published === false;
+                    run(
+                        this,
+                        () => updatePublicNotice(type, item, { published: goLive }),
+                        goLive ? '✔ নোটিসটি পাবলিক পেজে দেখানো হচ্ছে।' : 'নোটিসটি পাবলিক পেজ থেকে সরানো হয়েছে (মোছা হয়নি)।'
+                    );
                 });
 
+                row.querySelector('[data-na="delete"]').addEventListener('click', function () {
+                    if (!confirm('এই নোটিসটি ডিলেট করতে চান?')) { return; }
+                    run(this, () => deletePublicNotice(type, item.id), 'নোটিস সফলভাবে ডিলেট করা হয়েছে।');
+                });
+
+                row.querySelector('[data-na="edit"]').addEventListener('click', function () {
+                    const content = row.querySelector('.saved-notice-text');
+                    if (row.querySelector('.nm-edit-area')) { return; }
+
+                    const area = document.createElement('textarea');
+                    area.className = 'nm-edit-area';
+                    area.value = item.text;
+                    area.rows = 3;
+
+                    const bar = document.createElement('div');
+                    bar.className = 'nm-edit-bar';
+                    const ok = document.createElement('button');
+                    ok.type = 'button'; ok.className = 'btn btn-primary btn-sm'; ok.textContent = '✔ পরিবর্তন সংরক্ষণ';
+                    const no = document.createElement('button');
+                    no.type = 'button'; no.className = 'btn btn-ghost btn-sm'; no.textContent = 'বাতিল';
+                    bar.append(ok, no);
+
+                    content.style.display = 'none';
+                    content.after(area, bar);
+                    area.focus();
+
+                    no.addEventListener('click', () => { area.remove(); bar.remove(); content.style.display = ''; });
+                    ok.addEventListener('click', () => {
+                        run(ok, () => updatePublicNotice(type, item, { text: area.value }), '✔ নোটিস আপডেট হয়েছে।');
+                    });
+                });
+            });
         }
 
         async function loadPublicNoticeManager() {
@@ -6191,7 +6224,7 @@ vist: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
                     await loadPublicNoticeManager();
 
                     showPublicNoticeMsg(
-                        'স্ক্রলিং নোটিস সফলভাবে যোগ হয়েছে।',
+                        '✔ স্ক্রলিং নোটিস সংরক্ষিত হয়েছে। পাবলিক পেজে দেখাতে নিচের তালিকা থেকে "পাবলিক করুন" চাপুন।',
                         true
                     );
 
@@ -6247,7 +6280,7 @@ vist: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
                     await loadPublicNoticeManager();
 
                     showPublicNoticeMsg(
-                        'নোটিস বক্সের নোটিস সফলভাবে যোগ হয়েছে।',
+                        '✔ নোটিস সংরক্ষিত হয়েছে। পাবলিক পেজে দেখাতে নিচের তালিকা থেকে "পাবলিক করুন" চাপুন।',
                         true
                     );
 
@@ -7790,6 +7823,10 @@ Visit: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
             });
             document.addEventListener("click", event => {
                 if (quickMenu && !quickMenu.contains(event.target) && !quickMenuButton?.contains(event.target)) quickMenu.classList.remove("show");
+            });
+            document.getElementById("openSiteContentBtn")?.addEventListener("click", () => {
+                quickMenu?.classList.remove("show");
+                window.location.href = "site-content.html";
             });
             document.getElementById("openVisitorRecordsBtn")?.addEventListener("click", () => {
                 quickMenu?.classList.remove("show");

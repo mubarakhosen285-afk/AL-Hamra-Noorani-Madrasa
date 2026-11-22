@@ -101,18 +101,11 @@
     date.addEventListener('change', function () { day.textContent = dayName(date.value); });
     dateWrap.appendChild(dl); dateWrap.appendChild(date); dateWrap.appendChild(day);
 
-    var timeWrap = document.createElement('div');
-    timeWrap.className = 'routine-cell';
-    var tl = document.createElement('label'); tl.textContent = 'সময়';
-    var time = makeInput('text', 'rt-time', 'যেমন: সকাল ৯:০০');
-    time.value = data.time != null ? data.time : ($('routineDefaultTime') ? $('routineDefaultTime').value : '');
-    timeWrap.appendChild(tl); timeWrap.appendChild(time);
-
     var del = document.createElement('button');
     del.type = 'button'; del.className = 'btn btn-danger btn-sm rt-del'; del.textContent = '✕ দিন মুছুন';
     del.addEventListener('click', function () { row.remove(); });
 
-    top.appendChild(dateWrap); top.appendChild(timeWrap); top.appendChild(del);
+    top.appendChild(dateWrap); top.appendChild(del);
     row.appendChild(top);
 
     var grid = document.createElement('div');
@@ -147,7 +140,6 @@
     var rows = [];
     document.querySelectorAll('#routineRows .routine-row').forEach(function (r) {
       var date = r.querySelector('.rt-date').value;
-      var time = r.querySelector('.rt-time').value.trim();
       var subjects = {}; var any = false;
       r.querySelectorAll('.rt-sub').forEach(function (i) {
         var v = i.value.trim(); subjects[i.dataset.c] = v; if (v) any = true;
@@ -155,16 +147,17 @@
       if (!date && !any) return;                       // সম্পূর্ণ ফাঁকা সারি বাদ
       if (!date) throw new Error('প্রতিটি সারিতে তারিখ দিন।');
       if (!any) throw new Error(dateLabel(date) + ' — অন্তত একটি শ্রেণির বিষয় লিখুন।');
-      rows.push({ date: date, time: time, subjects: subjects });
+      rows.push({ date: date, subjects: subjects });
     });
     if (!rows.length) throw new Error('অন্তত একটি পরীক্ষার দিন যোগ করুন।');
     rows.sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
     var dup = rows.find(function (r, i) { return i && r.date === rows[i - 1].date; });
     if (dup) throw new Error(dateLabel(dup.date) + ' — একই তারিখ দুইবার আছে। এক সারিতে সব শ্রেণির বিষয় লিখুন।');
+    var examTime = $('routineDefaultTime').value.trim();
     var title = $('routineTitle').value.trim() || (bn(year) + ' সালের ' + exam + ' — রুটিন');
     return {
       title: title, examName: exam, year: Number(year),
-      note: $('routineNote').value.trim(), rows: rows
+      examTime: examTime, note: $('routineNote').value.trim(), rows: rows
     };
   }
 
@@ -173,6 +166,7 @@
     $('routineYear').value = new Date().getFullYear();
     $('routineExam').selectedIndex = 0;
     $('routineTitle').value = '';
+    $('routineDefaultTime').value = '';
     $('routineNote').value = '';
     $('routineRows').innerHTML = '';
     addRow({});
@@ -207,6 +201,9 @@
     for (var i = 0; i < sel.options.length; i++) if (sel.options[i].value === rec.examName) sel.selectedIndex = i;
     $('routineTitle').value = rec.title || '';
     $('routineNote').value = rec.note || '';
+    var oldT = rec.examTime || '';
+    if (!oldT) (rec.rows || []).some(function (r) { if (r.time) { oldT = r.time; return true; } return false; });
+    $('routineDefaultTime').value = oldT;
     $('routineRows').innerHTML = '';
     (rec.rows || []).forEach(addRow);
     if (!(rec.rows || []).length) addRow({});
@@ -277,7 +274,7 @@
           var q = pub && !live ? 'বর্তমান পাবলিক রুটিনের জায়গায় এই রুটিন দেখানো হবে। চালিয়ে যাবেন?' : 'এই রুটিন পাবলিক পেজে প্রকাশ করবেন?';
           if (!confirm(q)) return;
           try {
-            var copy = { title: r.title, examName: r.examName, year: r.year, note: r.note || '', rows: r.rows, sourceId: id, publishedAt: Date.now() };
+            var copy = { title: r.title, examName: r.examName, year: r.year, note: r.note || '', examTime: r.examTime || '', rows: r.rows, sourceId: id, publishedAt: Date.now() };
             await setVal(PUBLIC, copy);
             msg('✔ রুটিন পাবলিক পেজে প্রকাশিত হয়েছে।', true);
             await loadList();
