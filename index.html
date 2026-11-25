@@ -4169,10 +4169,7 @@ table.due-table td.name-cell {
         ========================================================= */
 
         const SMS_API_URL =
-            "https://api.textbee.dev/api/v1/gateway/send-sms";
-
-        const SMS_API_KEY =
-            "txb_L1p1NDAdZjv1lCFbPEEkMyDPnzKMrQf6";
+            "https://al-hamra-backend.mubarakhosen285.workers.dev/send-sms";
 
         const SMS_DEVICE_ID =
             "6a876163300559904608b7b6";
@@ -4389,17 +4386,24 @@ vist: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
                 };
             }
 
-            if (!SMS_API_KEY || SMS_API_KEY === "YOUR_NEW_TEXTBEE_API_KEY") {
-                return {
-                    success: false,
-                    error: 'TextBee API Key বসানো হয়নি।'
-                };
-            }
+            /* Worker যাচাই করে — তাই লগইন করা অ্যাডমিনের Firebase ID Token দরকার */
 
-            if (!SMS_DEVICE_ID || SMS_DEVICE_ID === "YOUR_DEVICE_ID") {
+            let idToken = '';
+
+            try {
+                const auth = window.firebaseAuth;
+                if (!auth || !auth.currentUser) {
+                    return {
+                        success: false,
+                        error: 'লগইন পাওয়া যায়নি। পেজ রিফ্রেশ করে আবার লগইন করুন।'
+                    };
+                }
+                idToken = await auth.currentUser.getIdToken();
+            } catch (tokenErr) {
+                console.error('Firebase token error:', tokenErr);
                 return {
                     success: false,
-                    error: 'TextBee Device ID বসানো হয়নি।'
+                    error: 'লগইন টোকেন পাওয়া যায়নি। আবার লগইন করুন।'
                 };
             }
 
@@ -4427,12 +4431,11 @@ vist: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'x-api-key': SMS_API_KEY
+                        'Authorization': 'Bearer ' + idToken
                     },
                     body: JSON.stringify({
                         recipients: list,
-                        message: message,
-                        deviceId: SMS_DEVICE_ID
+                        message: message
                     })
                 });
 
@@ -4442,7 +4445,7 @@ vist: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
                     data = await response.json();
                 } catch (e) {}
 
-                if (!response.ok) {
+                if (!response.ok || (data && data.success === false)) {
 
                     let errorMessage = 'HTTP ' + response.status;
 
@@ -4463,11 +4466,11 @@ vist: https://mubarakhosen285-afk.github.io/All-Hamra-Noorani-Madrasa/`
 
             } catch (err) {
 
-                console.error('TextBee SMS error:', err);
+                console.error('SMS Worker error:', err);
 
                 return {
                     success: false,
-                    error: err.message || 'নেটওয়ার্ক/CORS সমস্যা হয়েছে।'
+                    error: 'Worker-এ পৌঁছানো যায়নি (CORS)। Worker-এর ALLOWED_ORIGIN অবশ্যই ' + location.origin + ' হতে হবে।'
                 };
 
             } finally {
